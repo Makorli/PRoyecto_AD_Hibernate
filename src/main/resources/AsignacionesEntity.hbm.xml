@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.Model.AsignacionesEntity" table="Asignaciones" schema="gestionpiezas">
+        <id name="id">
+            <column name="id" sql-type="int"/>
+        </id>
+        <property name="cantidad">
+            <column name="cantidad" sql-type="float" precision="-1"/>
+        </property>
+        <many-to-one name="proveedoresByIdproveedor" class="com.Model.ProveedoresEntity">
+            <column name="idproveedor"/>
+        </many-to-one>
+        <many-to-one name="piezasByIdpieza" class="com.Model.PiezasEntity">
+            <column name="idpieza"/>
+        </many-to-one>
+        <many-to-one name="proyectosByIdproyecto" class="com.Model.ProyectosEntity">
+            <column name="idproyecto"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
