@@ -10,6 +10,9 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="current_session_context_class">thread</property>
+    <property name="hibernate.connection.username">gestionpiezas</property>
+    <property name="hibernate.connection.password">gestionpiezas</property>
+
     <mapping resource="AsignacionesEntity.hbm.xml"/>
     <mapping class="com.Model.AsignacionesEntity"/>
     <mapping class="com.Model.PiezasEntity"/>
@@ -18,8 +21,6 @@
     <mapping resource="ProveedoresEntity.hbm.xml"/>
     <mapping resource="ProyectosEntity.hbm.xml"/>
     <mapping class="com.Model.ProyectosEntity"/>
-    <!-- <property name="connection.username"/> -->
-      <!-- <property name="connection.password"/> -->
 
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

@@ -1,5 +1,6 @@
 package com.Utils;
 
+import com.Controllers.ViewsController;
 import com.Views.GestionView;
 import com.Views.QueryView;
 
@@ -7,7 +8,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CustomViewObjects {
+public class MyCustomViewObjects {
+
+
 
     public static class MyMenuBar {
 
@@ -24,6 +27,8 @@ public class CustomViewObjects {
         }
 
         private static JMenu getMenuProveedores(){
+
+            ViewsController.MyClass myClass= ViewsController.MyClass.Proveedores;
 
             JMenu menuProveedores = new JMenu("Proveedores");
             JMenu menuConsultaProveedores = new JMenu("Consulta de Proveedores");
@@ -44,10 +49,9 @@ public class CustomViewObjects {
             itemGestionProveedores.addActionListener(e -> {
                 JFrame frame = new JFrame("Gestion de Proveedores");
                 frame.setContentPane(new GestionView().getJPGeneral());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
-
             });
 
             itemConsultaProveedoresCodigo.addActionListener(e -> {
@@ -59,11 +63,19 @@ public class CustomViewObjects {
             });
 
             itemConsultaProveedoresNombre.addActionListener(e -> {
-                //TODO
+                JFrame frame = new JFrame("Consulta de Proveedores por Nombre");
+                frame.setContentPane(new QueryView("Proveedores","Nombre").getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
             });
 
             itemConsultaProveedoresDireccion.addActionListener(e -> {
-                //TODO
+                JFrame frame = new JFrame("Consulta de Proveedores por Dirección");
+                frame.setContentPane(new QueryView("Proveedores","Direccion").getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
             });
 
             return menuProveedores;
@@ -99,14 +111,22 @@ public class CustomViewObjects {
             itemConsultaPiezasCodigo.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO
+                    JFrame frame = new JFrame("Consulta de Piezas por Código");
+                    frame.setContentPane(new QueryView("Piezas","Codigo").getJPGeneral());
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
                 }
             });
 
             itemConsultaPiezasNombre.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO
+                    JFrame frame = new JFrame("Consulta de Piezas por Nombre");
+                    frame.setContentPane(new QueryView("Piezas","Nombre").getJPGeneral());
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frame.pack();
+                    frame.setVisible(true);
                 }
             });
 
@@ -139,15 +159,27 @@ public class CustomViewObjects {
             });
 
             itemConsultaProyectosCodigo.addActionListener(e -> {
-                //TODO
+                JFrame frame = new JFrame("Consulta de Proyectos por Codigo");
+                frame.setContentPane(new QueryView("Proyectos","Codigo").getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
             });
 
             itemConsultaProyectosNombre.addActionListener(e -> {
-                //TODO
+                JFrame frame = new JFrame("Consulta de Proyectos por Nombre");
+                frame.setContentPane(new QueryView("Proyectos","Nombre").getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
             });
 
             itemConsultaProyectosCiudad.addActionListener(e -> {
-                //TODO
+                JFrame frame = new JFrame("Consulta de Proyectos por Ciudad");
+                frame.setContentPane(new QueryView("Proyectos","Ciudad").getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
             });
 
             return menuProyectos;

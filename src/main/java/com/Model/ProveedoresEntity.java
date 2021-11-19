@@ -15,6 +15,14 @@ public class ProveedoresEntity {
     private String direccion;
     private Collection<AsignacionesEntity> asignacionesById;
 
+    public ProveedoresEntity(int id, String codigo, String nombre, String apellidos, String direccion) {
+        this.id = id;
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
