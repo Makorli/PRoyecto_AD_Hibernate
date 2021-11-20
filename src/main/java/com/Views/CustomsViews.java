@@ -1,16 +1,16 @@
-package com.Utils;
+package com.Views;
 
-import com.Controllers.ViewsController;
-import com.Views.GestionView;
-import com.Views.QueryView;
+import com.Controllers.MyEntitys;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MyCustomViewObjects {
-
-
+public class CustomsViews {
 
     public static class MyMenuBar {
 
@@ -26,9 +26,9 @@ public class MyCustomViewObjects {
             return menuBar;
         }
 
-        private static JMenu getMenuProveedores(){
+        private static JMenu getMenuProveedores() {
 
-            ViewsController.MyClass myClass= ViewsController.MyClass.Proveedores;
+            MyEntitys myEntity = MyEntitys.Proveedores;
 
             JMenu menuProveedores = new JMenu("Proveedores");
             JMenu menuConsultaProveedores = new JMenu("Consulta de Proveedores");
@@ -48,7 +48,7 @@ public class MyCustomViewObjects {
             //LISTENERS DE LOS ITEMS
             itemGestionProveedores.addActionListener(e -> {
                 JFrame frame = new JFrame("Gestion de Proveedores");
-                frame.setContentPane(new GestionView().getJPGeneral());
+                frame.setContentPane(new GestionView(myEntity).getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -56,7 +56,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProveedoresCodigo.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proveedores por Código");
-                frame.setContentPane(new QueryView("Proveedores","Codigo").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -64,7 +64,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProveedoresNombre.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proveedores por Nombre");
-                frame.setContentPane(new QueryView("Proveedores","Nombre").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -72,7 +72,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProveedoresDireccion.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proveedores por Dirección");
-                frame.setContentPane(new QueryView("Proveedores","Direccion").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Direccion").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -82,7 +82,10 @@ public class MyCustomViewObjects {
 
         }
 
-        private static JMenu getMenuPiezas(){
+        private static JMenu getMenuPiezas() {
+
+            MyEntitys myEntity = MyEntitys.Piezas;
+
             JMenu menuPiezas = new JMenu("Piezas");
             JMenu menuConsultaPiezas = new JMenu("Consulta de Piezas");
 
@@ -101,7 +104,7 @@ public class MyCustomViewObjects {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = new JFrame("Gestion de Piezas");
-                    frame.setContentPane(new GestionView().getJPGeneral());
+                    frame.setContentPane(new GestionView(myEntity).getJPGeneral());
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.pack();
                     frame.setVisible(true);
@@ -112,7 +115,7 @@ public class MyCustomViewObjects {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = new JFrame("Consulta de Piezas por Código");
-                    frame.setContentPane(new QueryView("Piezas","Codigo").getJPGeneral());
+                    frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.pack();
                     frame.setVisible(true);
@@ -123,7 +126,7 @@ public class MyCustomViewObjects {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = new JFrame("Consulta de Piezas por Nombre");
-                    frame.setContentPane(new QueryView("Piezas","Nombre").getJPGeneral());
+                    frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frame.pack();
                     frame.setVisible(true);
@@ -133,7 +136,10 @@ public class MyCustomViewObjects {
             return menuPiezas;
         }
 
-        private static JMenu getMenuProyectos(){
+        private static JMenu getMenuProyectos() {
+
+            MyEntitys myEntity = MyEntitys.Proyectos;
+
             JMenu menuProyectos = new JMenu("Proyectos");
             JMenu menuConsultaProyectos = new JMenu("Consulta de Proyectos");
 
@@ -152,7 +158,7 @@ public class MyCustomViewObjects {
             //LISTENERS DE LOS ITEMS
             itemGestionProyectos.addActionListener(e -> {
                 JFrame frame = new JFrame("Gestion de Proyectos");
-                frame.setContentPane(new GestionView().getJPGeneral());
+                frame.setContentPane(new GestionView(myEntity).getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -160,7 +166,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProyectosCodigo.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proyectos por Codigo");
-                frame.setContentPane(new QueryView("Proyectos","Codigo").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -168,7 +174,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProyectosNombre.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proyectos por Nombre");
-                frame.setContentPane(new QueryView("Proyectos","Nombre").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -176,7 +182,7 @@ public class MyCustomViewObjects {
 
             itemConsultaProyectosCiudad.addActionListener(e -> {
                 JFrame frame = new JFrame("Consulta de Proyectos por Ciudad");
-                frame.setContentPane(new QueryView("Proyectos","Ciudad").getJPGeneral());
+                frame.setContentPane(new QueryView(myEntity, "Ciudad").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -185,7 +191,7 @@ public class MyCustomViewObjects {
             return menuProyectos;
         }
 
-        private static JMenu getMenuGestionGlobal(){
+        private static JMenu getMenuGestionGlobal() {
             JMenu menuGestionGlobal = new JMenu("Gestión Global");
 
             // CREAR ASIGNACION
@@ -239,142 +245,89 @@ public class MyCustomViewObjects {
             return menuGestionGlobal;
         }
 
-        private static JMenu getMenuAyuda(){
-            JMenu menuAyuda = new JMenu("Ayuda");
-            return  menuAyuda;
+        private static JMenu getMenuAyuda() {
+            return new JMenu("Ayuda");
         }
 
-        public static class MyFrikiMenuBar {
+    }
 
-            //Enum que identifica los campos de la barra de Menus.
-            public enum MenuOptions {
-                Proveedores,  //posicion 0
-                Piezas, //posicion 1
-                Proyectos,   //posicion 2
-                Gestion_Global, //posicion 3
-                Ayuda, //posicion 4
-            }
+    //Clase personalizada de JPanel de contenido dinámico según los modelos.
+    public static class DinamicJpanel extends JPanel {
 
-            //Enum que identifica los items generales aplicables a los menús similares (Proveedores,Piezas..etc)
-            public enum itemsGenerales {
-                Gestion,
-                Consulta,
-            }
+        private final MyEntitys type;
+        private HashMap<String, JTextField> fields;
+        private JPanel dataLines;
 
+        public DinamicJpanel(MyEntitys type) {
+            //super(new GridLayout(0, 1));
+            super(new BorderLayout());
 
-            public static JMenuBar getJMenuBar() {
+            this.type = type;
+            fields = new HashMap<>();
+            String[] campos = new String[0];
 
-                JMenuBar myJMenuBar = new JMenuBar();
-
-                //Montamos los menus de la barra de menus segun las opciones del enum
-                //Menus: clientes, empleados, espectaculos....
-                for (MenuOptions menuOption : MenuOptions.values()) {
-
-                    //Creamos el objeto menu y le asignamos el nombre.
-                    JMenu menu = new JMenu(menuOption.name());
-                    menu.setName(menuOption.name().replace("_"," "));
-
-                    // Creamos los items de cada menu
-                    /**Convención de nombres de Items generales
-                     * Para texto mostrado: valor enum + de + atributo name de jmenu --> Ejemplo: Gestion de Proveedores
-                     * Para atributo name: item+Funcion+nombreMenu --> Ejemplo: itemGestionProveedores
-                     */
-                    switch (menuOption) {
-
-                        //Items de igual construccion. Se diferencian unicamente por el nombre
-                        case Proveedores, Piezas, Proyectos -> {
-                            //Recorremos los Items generales comunes a las opciones agrupadas en el case
-                            for (itemsGenerales item : itemsGenerales.values()) {
-
-                                switch (item){
-                                    //Gestion es un menu, no un submenu
-                                    case Gestion -> {
-                                        //Creamos el nuevo menu y lo añadimos como opcion al existente
-                                        JMenu subMenu= new JMenu(
-                                                String.format("%s de %s", item.name(),menu.getName()));
-                                        subMenu.setName(item.name());
-                                    }
-
-                                    //Consulta son Items de menu
-                                    case Consulta -> {
-                                        //Creamos el item de menu con su texto
-                                        JMenuItem menuItem = new JMenuItem(
-                                                String.format("%s de %s", item.name(), menu.getName())
-                                        );
-                                        //Establecemos el nombre
-                                        menuItem.setName(item.name());
-
-                                        menuItem.addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                //Crear Jframe
-                                                //Crear ventanaGestion
-                                                //frame.setcontentPane...
-                                                //frame.setdefaultCloseOperation
-                                                //frame.pack
-                                                //frame.visible
-                                            }
-                                        });
-
-                                        //Agregamos el item al menu
-                                        menu.add(menuItem);
-                                    }
-                                }
-                            }
-                        }
-
-                        //Opciones para el Menú de gestión
-                        case Gestion_Global -> {
-                            // Crear Items a agregar al menu Gestión
-
-                            // CREAR ASIGNACION
-
-                            JMenuItem itemCrearAsignacion = new JMenuItem("Nueva Asignacion");
-                            itemCrearAsignacion.setName("itemCrearAsignacionGestion");
-
-                            //TODO add listener
-                            //Agregamos el item de asignacion
-                            menu.add(itemCrearAsignacion);
-
-                            //SUMNISTROD POR PROVEEDOR
-
-                            JMenuItem itemSuministrosProveedor = new JMenuItem("Suministros por Proveedores");
-                            itemSuministrosProveedor.setName("itemSuministrosProveedorGestion");
-                            //TODO add listener
-                            //Agregamos el item de Sumnistros por Proveedor
-                            menu.add(itemSuministrosProveedor);
-
-                            //SUMINISTROS POR PIEZAS
-
-                            JMenuItem itemSuministrosPiezas = new JMenuItem("Suministros por Piezas");
-                            itemSuministrosPiezas.setName("itemSuministrosPiezasGestion");
-                            //TODO add listener
-                            //Agregamos el item de Sumnistros por Piezas
-                            menu.add(itemSuministrosPiezas);
-
-                            //ESTADISTICAS
-
-                            JMenuItem itemEstadisticas = new JMenuItem("Estadisticas");
-                            itemEstadisticas.setName("itemEstadisticasGestion");
-                            //TODO add listener
-                            //Agregamos el item de estaditicas.
-                            menu.add(itemEstadisticas);
-
-                        }
-                        //Opciones para el menú de ayuda
-                        case Ayuda -> {}
-
-                        //Opciones del enum no tratadas
-                        default -> {System.out.format("Menú %s no tratada en la construcción del JMenuBar",menu.getName());}
-                    }
-
-                    //Agregamos el menu a la barra
-                    myJMenuBar.add(menu);
+            switch (type) {
+                /* ref -> https://stackoverflow.com/questions/8545301/put-text-boxes-in-separate-lines */
+                case Proveedores -> {
+                    campos = new String[]{"Codigo", "Nombre", "Apellidos", "Direccion"};
                 }
-
-                //Retornammos la barra de menús construida con sus listeners y acciones.
-                return myJMenuBar;
+                case Piezas -> {
+                    campos = new String[]{"Codigo", "Nombre", "Precio", "Descripcion"};
+                }
+                case Proyectos -> {
+                    campos = new String[]{"Codigo", "Nombre", "Ciudad"};
+                }
+                case Asignaciones -> {
+                }
+                default -> {
+                }
             }
+
+            this.dataLines = new JPanel(new GridLayout(campos.length, 2));
+            //JPanel dataLines = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+            for (String campo : campos) {
+                //Etiqueta
+                JLabel label = new JLabel(campo + ": ", SwingConstants.LEFT);
+                label.setMinimumSize(new Dimension(-1, -1));
+
+                //TextField
+                JTextField field = new JTextField(20);
+                String fieldName = "tb" + campo.toLowerCase();
+                field.setName(fieldName);
+
+                //Anexamos los objetos al jpanel datalines
+                dataLines.add(label);
+                dataLines.add(field);
+
+                //Anexamos el campo al diccionarion de la clase.
+                fields.put(fieldName, field);
+            }
+            //Añadimos los campos a nuestra clase
+            this.add(dataLines, BorderLayout.CENTER);
+
+            //Ponemos margen al JPanel.
+            //ref -> https://stackoverflow.com/questions/5854005/setting-horizontal-and-vertical-margins
+            this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        }
+
+        public HashMap<String, JTextField> getFieldsMap() {
+            return fields;
+        }
+
+        public MyEntitys getType() {
+            return type;
+        }
+
+        public List<String> getFieldsNames() {
+            return new ArrayList<>(this.fields.keySet());
+        }
+
+        public JPanel getDataLines(){
+            return dataLines;
         }
     }
+
+
 }
+

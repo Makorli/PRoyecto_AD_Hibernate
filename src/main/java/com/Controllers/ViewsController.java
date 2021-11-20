@@ -1,7 +1,14 @@
 package com.Controllers;
 
+import com.Model.PiezasEntity;
+import com.Model.ProveedoresEntity;
+import com.Model.ProyectosEntity;
+import com.Views.CustomsViews.DinamicJpanel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase genrica para la obtención de objetos de vistas a usar en las vistas generales
@@ -9,31 +16,73 @@ import java.awt.*;
  */
 public class ViewsController {
 
-    public enum MyClass {
-        Proveedores,
-        Piezas,
-        Asignaciones,
-        Proyectos
+    /**
+     * Funcion que devuelve un objeto partiendo de los datos contenidos en los TextFields de la vista.
+     * @param myCustomPanel
+     */
+    public static Object getObjectFromMyCustomView(DinamicJpanel myCustomPanel) {
+        //Preguntamos el tipo de panel que es
+        Object o = null;
+        switch (myCustomPanel.getType()){
+            case Proveedores -> {
+                ProveedoresEntity myEntity = new ProveedoresEntity();
+                for (JTextField field: myCustomPanel.getFieldsMap().values()){
+                    switch (field.getName()){
+                        case "codigo" ->{ myEntity.setCodigo(field.getText()); }
+                        case "nombre" ->{ myEntity.setNombre(field.getText()); }
+                        case "apellidos" ->{ myEntity.setApellidos(field.getText()); }
+                        case "direccion" ->{ myEntity.setDireccion(field.getText()); }
+                    }
+                }
+                o=myEntity;
+            }
+            case Proyectos -> {
+                ProyectosEntity myEntity = new ProyectosEntity();
+                for (JTextField field: myCustomPanel.getFieldsMap().values()){
+                    switch (field.getName()){
+                        case "codigo" ->{ myEntity.setCodigo(field.getText()); }
+                        case "nombre" ->{ myEntity.setNombre(field.getText()); }
+                        case "ciudad" ->{ myEntity.setCiudad(field.getText()); }
+                    }
+                }
+                o=myEntity;
+            }
+            case Piezas -> {
+                PiezasEntity myEntity = new PiezasEntity();
+                for (JTextField field: myCustomPanel.getFieldsMap().values()){
+                    switch (field.getName()){
+                        case "codigo" ->{ myEntity.setCodigo(field.getText()); }
+                        case "nombre" ->{ myEntity.setNombre(field.getText()); }
+                        case "precio" ->{ myEntity.setPrecio(Double.parseDouble(field.getText())); }
+                        case "descripcion" -> {myEntity.setDescripcion(field.getText());}
+                    }
+                }
+                o=myEntity;
+            }
+            case Asignaciones -> {}
+            default -> {return null;}
+        }
+        return o;
     }
 
-    public static MyClass getSelectedModelFromString(String model) {
-        MyClass myClass;
+    public static MyEntitys GetSelectedModelFromString(String model) {
+        MyEntitys myEntitys;
         switch (model.toUpperCase()) {
             case "PROVEEDORES", "PROVEEDOR", "PROVEEDORESENTITY" -> {
-                myClass = MyClass.Proveedores;
+                myEntitys = MyEntitys.Proveedores;
             }
             case "PIEZAS", "PIEZA", "PIEZASENTITY" -> {
-                myClass = MyClass.Piezas;
+                myEntitys = MyEntitys.Piezas;
             }
             case "PROYECTOS", "PROYECTO", "PROYECTOSENTITY" -> {
-                myClass = MyClass.Proyectos;
+                myEntitys = MyEntitys.Proyectos;
             }
             case "ASIGNACIONES", "ASIGNACION", "GESTION", "ASIGNACIONESENTITY", "GESTIONENTITY" -> {
-                myClass = MyClass.Asignaciones;
+                myEntitys = MyEntitys.Asignaciones;
             }
             default -> throw new IllegalStateException("Modelo no reconocido: " + model.toUpperCase());
         }
-        return myClass;
+        return myEntitys;
     }
 
     /**
@@ -44,79 +93,77 @@ public class ViewsController {
      * @param clase
      * @return
      */
-    public static JPanel getDataPanel(String clase) {
-        return getDataPanel(getSelectedModelFromString(clase.toUpperCase()));
+    public static DinamicJpanel CreateDataPanel(String clase) {
+        return CreateDataPanel(GetSelectedModelFromString(clase.toUpperCase()));
     }
 
-    public static JPanel getDataPanel(MyClass clazz) {
+    public static DinamicJpanel CreateDataPanel(MyEntitys clazz) {
+        return new DinamicJpanel(clazz);
+    }
 
-        JPanel myDataPanel = new JPanel();
+    /**
+     * Procedimiento que devuelve una lista de todos los JTextfields contenidos en un contenedor
+     */
+    public static List<JTextField> GetJTextFieldsFromJPanel(Container myContainer){
 
-        switch (clazz) {
+        List<JTextField> myList = new ArrayList<>();
+        Component[] myComps = myContainer.getComponents();
 
-            /* ref -> https://stackoverflow.com/questions/8545301/put-text-boxes-in-separate-lines */
-            case Proveedores -> {
-                String[] campos = {"Codigo", "Nombre", "Apellidos", "Direccion"};
-
-                JPanel dataLines = new JPanel(new GridLayout(0, 2));
-
-                for (String campo : campos) {
-                    JLabel label = new JLabel(campo + ": ", SwingConstants.RIGHT);
-                    label.setMinimumSize(new Dimension(-1, -1));
-                    dataLines.add(label);
-                    dataLines.add("tb" + campo, new JTextField(20));
-                }
-
-                myDataPanel.add(dataLines, BorderLayout.CENTER);
-                //ref -> https://stackoverflow.com/questions/5854005/setting-horizontal-and-vertical-margins
-                myDataPanel.setBorder(
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-                return myDataPanel;
+        for (Component myComp : myComps) {
+            if (myComp instanceof JPanel myPanel) {
+                GetJTextFieldsFromJPanel(myPanel);
             }
-            case Piezas -> {
-                String[] campos = {"Codigo", "Nombre", "Precio", "Descripcion"};
-
-                JPanel dataLines = new JPanel(new GridLayout(0, 2));
-
-                for (String campo : campos) {
-                    JLabel label = new JLabel(campo + ": ", SwingConstants.RIGHT);
-                    label.setMinimumSize(new Dimension(-1, -1));
-                    dataLines.add(label);
-                    dataLines.add("tb" + campo, new JTextField(20));
-                }
-
-                myDataPanel.add(dataLines, BorderLayout.CENTER);
-                myDataPanel.setBorder(
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-                return myDataPanel;
-            }
-
-            case Proyectos -> {
-                String[] campos = {"Codigo", "Nombre", "Ciudad"};
-
-                JPanel dataLines = new JPanel(new GridLayout(0, 2));
-
-                for (String campo : campos) {
-                    JLabel label = new JLabel(campo + ": ", SwingConstants.RIGHT);
-                    label.setMinimumSize(new Dimension(-1, -1));
-                    dataLines.add(label);
-                    dataLines.add("tb" + campo, new JTextField(20));
-                }
-
-                myDataPanel.add(dataLines, BorderLayout.CENTER);
-                myDataPanel.setBorder(
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-                return myDataPanel;
-            }
-
-            case Asignaciones -> {}
-
-            default -> {
+            if (myComp instanceof JTextField myTextField) {
+                myList.add(myTextField);
             }
         }
-        return myDataPanel;
+        return myList;
     }
+
+    //Procedimeinto que limpia todos lo JtextFields de un contenedor y los deja vacios.
+    public static void ClearAllFields(Container myContainer) {
+
+        // ref --> https://newbedev.com/java-get-jpanel-components
+        Component[] myComps = myContainer.getComponents();
+
+        for (Component myComp : myComps) {
+            if (myComp instanceof JPanel myPanel) {
+                ClearAllFields(myPanel);
+            }
+            if (myComp instanceof JTextField myTextField) {
+                myTextField.setText("");
+            }
+        }
+    }
+
+    public static void TrimAllFields(Container myContainer) {
+
+        // ref --> https://newbedev.com/java-get-jpanel-components
+        Component[] myComps = myContainer.getComponents();
+
+        for (Component myComp : myComps) {
+            if (myComp instanceof JPanel myPanel) {
+                TrimAllFields(myPanel);
+            }
+            if (myComp instanceof JTextField myTextField) {
+                myTextField.setText(myTextField.getText().trim());
+            }
+        }
+    }
+
+    public static void DisableAllFields(Container myContainer) {
+
+        // ref --> https://newbedev.com/java-get-jpanel-components
+        Component[] myComps = myContainer.getComponents();
+
+        for (Component myComp : myComps) {
+            if (myComp instanceof JPanel myPanel) {
+                DisableAllFields(myPanel);
+            }
+            if (myComp instanceof JTextField myTextField) {
+                myTextField.setEnabled(false);
+            }
+        }
+    }
+
 }

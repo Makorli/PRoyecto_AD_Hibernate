@@ -15,6 +15,9 @@ public class PiezasEntity {
     private String descripcion;
     private Collection<AsignacionesEntity> asignacionesById;
 
+    public PiezasEntity() {
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {

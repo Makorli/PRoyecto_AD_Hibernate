@@ -1,16 +1,15 @@
 package com.Views;
 
-import com.Controllers.GenericDAO;
-import com.Controllers.ViewsController;
-import com.Model.Proveedor;
+import com.Controllers.*;
+import com.Model.AsignacionesEntity;
+import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
+import com.Model.ProyectosEntity;
+import com.Views.CustomsViews.DinamicJpanel;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Locale;
 
 public class QueryView {
     private JPanel JPGeneral;
@@ -26,31 +25,61 @@ public class QueryView {
     private String claseBusqueda;
     private String campoBusqueda;
 
-    //VAriable para el controlador de la clase seleccionada
+    MyEntitys tipoVentana;  //Tipo de Objeto que muestra el QueryView
+    private DinamicJpanel myCustomPanel; //Panel personalizado
+    GenericDAO controller;
+
+    //Controladores Posibles
+    private ProveedoresDAO ctProvs; //Controlador de Proveedores
+    private ProyectosDAO ctProjects; //Controlador de Proyectos
+    private PiezasDAO ctPiezas; //Controlador de Piezas
+    private AsignacionesDAO ctAsigns; //Controlador de Asignaciones
 
 
     //CONSTRUCTORES
-    public QueryView(String clase, String campo) {
-        this.claseBusqueda =clase;
+
+    public QueryView(MyEntitys myEntitys, String campo) {
+        tipoVentana = myEntitys;
         this.campoBusqueda = campo;
         this.lbDescripcion.setText(
                 String.format("Escribe %s o una parte", this.campoBusqueda.toUpperCase())
         );
+        //Inicializamos los listeners de los botones
         initListeners();
+        //Creamos el controlador especifico seún el tipoVentana
+        switch (tipoVentana){
+            case Proveedores -> this.ctProvs = new ProveedoresDAO();
+            case Piezas -> this.ctPiezas = new PiezasDAO();
+            case Proyectos -> this.ctProjects = new ProyectosDAO();
+            case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
+        }
+    }
+
+    private void createUIComponents() {
+        //Construimos la ventana de visualizacion de objetos dinamicamente dependiendo
+        // de la clase de busqueda elegida.
+        tipoVentana = ViewsController.GetSelectedModelFromString(claseBusqueda);
+        myCustomPanel = ViewsController.CreateDataPanel(tipoVentana);
+
+        //Pintamos el PAnel
+        JPDatosQuery = myCustomPanel.getDataLines();
+
+        switch (tipoVentana){
+            case Proveedores -> this.ctProvs = new ProveedoresDAO();
+            case Piezas -> this.ctPiezas = new PiezasDAO();
+            case Proyectos -> this.ctProjects = new ProyectosDAO();
+            case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
+        }
     }
 
     //Procedimiento que inicializa los listeners del panel
     public void initListeners(){
-        ViewsController.MyClass myClass = ViewsController.getSelectedModelFromString(this.claseBusqueda);
         tfBusqueda.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                switch (myClass){
+                switch (tipoVentana){
                     case Proveedores -> {
                         //{"Codigo", "Nombre", "Apellidos", "Direccion"}
-                        GenericDAO myController = new GenericDAO(ProveedoresEntity.class);
-                        ProveedoresEntity prov = new ProveedoresEntity(1,"sd","Adrian","Theone","Castillo");
-                        myController.create(prov);
                     }
                     case Piezas -> {
                         //{"Codigo", "Nombre", "Precio", "Descripcion"}
@@ -67,19 +96,5 @@ public class QueryView {
     public JPanel getJPGeneral() {
         return JPGeneral;
     }
-
-    private void createUIComponents() {
-        //Construimos la ventana de visualziacion de objetos dinamicamente dependiendo
-        // de la clase de busqueda elegida.
-        //Cada clase tiene sus campos
-        // Proveedor --> {"Codigo", "Nombre", "Apellidos", "Direccion"}
-        // Piezas --> {"Codigo", "Nombre", "Precio", "Descripcion"}
-        // Proyectos --> {"Codigo", "Nombre", "Ciudad"}
-        // Asignaciones --> {}
-        JPDatosQuery = ViewsController.getDataPanel(claseBusqueda);
-
-
-    }
-
 
 }

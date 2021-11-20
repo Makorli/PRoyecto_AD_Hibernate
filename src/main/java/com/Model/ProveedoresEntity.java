@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Proveedores", schema = "gestionpiezas", catalog = "")
+
 public class ProveedoresEntity {
     private int id;
     private String codigo;
@@ -21,6 +22,17 @@ public class ProveedoresEntity {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
+    }
+
+    public ProveedoresEntity(String codigo, String nombre, String apellidos, String direccion) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+    }
+
+    public ProveedoresEntity() {
+
     }
 
     @Id

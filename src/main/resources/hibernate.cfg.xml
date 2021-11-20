@@ -12,13 +12,17 @@
     <property name="current_session_context_class">thread</property>
     <property name="hibernate.connection.username">gestionpiezas</property>
     <property name="hibernate.connection.password">gestionpiezas</property>
+    <property name="hbm2ddl.auto">update</property>
 
     <mapping resource="AsignacionesEntity.hbm.xml"/>
     <mapping class="com.Model.AsignacionesEntity"/>
-    <mapping class="com.Model.PiezasEntity"/>
+
     <mapping resource="PiezasEntity.hbm.xml"/>
-    <mapping class="com.Model.ProveedoresEntity"/>
+    <mapping class="com.Model.PiezasEntity"/>
+
     <mapping resource="ProveedoresEntity.hbm.xml"/>
+    <mapping class="com.Model.ProveedoresEntity"/>
+
     <mapping resource="ProyectosEntity.hbm.xml"/>
     <mapping class="com.Model.ProyectosEntity"/>
 
