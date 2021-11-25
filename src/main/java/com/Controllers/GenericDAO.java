@@ -1,6 +1,7 @@
 package com.Controllers;
 
 import com.Model.ProveedoresEntity;
+import jakarta.persistence.PersistenceException;
 import org.hibernate.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
@@ -11,27 +12,27 @@ public abstract class GenericDAO<T> {
 
     private Object T;
 
-    protected T getType(){
+    protected T getType() {
         return (T) T;
     }
 
-    protected void setType(Class<T> t){
+    protected void setType(Class<T> t) {
         this.T = t;
     }
 
-    public void insert(T t){
+    public void insert(T t) {
         SessionFactory sessionfactory = HibernateUtil.getSessionFactory();
         Session session = sessionfactory.openSession();
         Transaction tx = session.beginTransaction();
-
         try {
             session.save(t);
             tx.commit();
         } catch (ConstraintViolationException e) {
             System.out.println("Objeto duplicado en la base de datos");
-            e.printStackTrace();
-        } catch (TransientPropertyValueException tr){
+        } catch (TransientPropertyValueException tr) {
             System.out.println("Objeto asociado no existe");
+        } catch (PersistenceException pe) {
+            System.out.println("Codigo duplicado o código no coherente.");
         }
         session.close();
     }
@@ -45,15 +46,15 @@ public abstract class GenericDAO<T> {
         return (T) o;
     }
 
-    public List<T>getAll(){
+    public List<T> getAll() {
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
         Transaction tx = session.beginTransaction();
 
         String className = T.toString();
-        className = className.substring(className.lastIndexOf('.')+1);
+        className = className.substring(className.lastIndexOf('.') + 1);
 
-        Query query = session.createQuery(String.format("from %s",className));
+        Query query = session.createQuery(String.format("from %s", className));
         List<T> myList = query.list();
         /*
         Iterator<T> myIterator = myList.iterator();
@@ -84,7 +85,7 @@ public abstract class GenericDAO<T> {
     }
 
     //DELETE
-    public void delete(T t){
+    public void delete(T t) {
         SessionFactory sessionfactory = HibernateUtil.getSessionFactory();
         Session session = sessionfactory.openSession();
         Transaction tx = session.beginTransaction();
@@ -92,12 +93,12 @@ public abstract class GenericDAO<T> {
         try {
             session.delete(t);
             tx.commit();
-        }catch (ObjectNotFoundException o){
-            System.out.println ("NO EXISTE EL OBJETO A ACTUALIZAR");
-        }catch (ConstraintViolationException c){
-            System.out.println ("OBJETO CON DEPENDENCIAS ASOCIADAS");
-        }catch (Exception e){
-            System.out.println ("ERROR NO CONTROLADO");
+        } catch (ObjectNotFoundException o) {
+            System.out.println("NO EXISTE EL OBJETO A ACTUALIZAR");
+        } catch (ConstraintViolationException c) {
+            System.out.println("OBJETO CON DEPENDENCIAS ASOCIADAS");
+        } catch (Exception e) {
+            System.out.println("ERROR NO CONTROLADO");
             e.printStackTrace();
         }
         session.close();

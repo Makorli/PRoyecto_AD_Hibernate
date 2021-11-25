@@ -1,6 +1,9 @@
 package com.Controllers;
 
 import com.Model.ProveedoresEntity;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -8,6 +11,20 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
 
     public ProveedoresDAO() {
         super.setType(ProveedoresEntity.class);
+    }
+
+    public ProveedoresEntity getByCodigo(String codigo) {
+        codigo= codigo.toLowerCase().trim();
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        ProveedoresEntity p = session.get(ProveedoresEntity.class, codigo);
+        return p;
+    }
+
+    public boolean exists(ProveedoresEntity proveedoresEntity){
+        ProveedoresEntity p = getByCodigo(proveedoresEntity.getCodigo());
+        return p != null;
     }
 
     @Override

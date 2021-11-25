@@ -1,20 +1,22 @@
 package com.Views;
 
 import com.Controllers.*;
-import com.Model.AsignacionesEntity;
 import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
-import com.Model.ProyectosEntity;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.AbstractMap;
 import java.util.List;
 
 import com.Controllers.Validator.*;
+import com.Model.ProyectosEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.TransientPropertyValueException;
+import org.hibernate.exception.ConstraintViolationException;
 
 public class GestionView {
 
@@ -44,8 +46,8 @@ public class GestionView {
 
     //COMPONENETES PANEL DE LISTADOS
     private MyEntitys tipoVentana;
-    private CustomsViews.DinamicJpanel myGestionPanel;
-    private CustomsViews.DinamicJpanel myListadosPanel;
+    private DinamicJpanel myGestionPanel;
+    private DinamicJpanel myListadosPanel;
 
     //Controladores Posibles
     private ProveedoresDAO ctProvs; //Controlador de Proveedores
@@ -62,7 +64,7 @@ public class GestionView {
         //Inicializamos los listeners de los botones
         initListeners();
         //Creamos el controlador especifico seún el tipoVentana
-        switch (tipoVentana){
+        switch (tipoVentana) {
             case Proveedores -> this.ctProvs = new ProveedoresDAO();
             case Piezas -> this.ctPiezas = new PiezasDAO();
             case Proyectos -> this.ctProjects = new ProyectosDAO();
@@ -90,7 +92,7 @@ public class GestionView {
 
     }
 
-    private void initListeners(){
+    private void initListeners() {
         //PESTAÑA DATOS GESTION
         // limpiarButton , insertarButton , modificarButton , eliminarButton
         limpiarButton.addActionListener(new ActionListener() {
@@ -104,32 +106,108 @@ public class GestionView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Object o = ViewsController.getObjectFromMyCustomView(myGestionPanel);
-                switch (tipoVentana){
+                switch (tipoVentana) {
                     case Proveedores -> {
-                        String errores = Validator.checkInputErrors(myGestionPanel,checkCause.insertar);
-                         if (errores.equals("")){
-                             ProveedoresEntity p = new ProveedoresEntity();
-                             p.setCodigo(myGestionPanel.getFieldsMap().get("tbcodigo").getText());
-                             p.setNombre(myGestionPanel.getFieldsMap().get("tbnombre").getText());
-                             p.setApellidos(myGestionPanel.getFieldsMap().get("tbapellidos").getText());
-                             p.setDireccion(myGestionPanel.getFieldsMap().get("tbdireccion").getText());
-                             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-                             Session session = sessionFactory.openSession();
-                             Transaction tx = session.beginTransaction();
-                             session.save(p);
-                             try{
-                                 tx.commit();
-                             }
-                             catch (Exception ex){
-                                 System.out.println(ex.getMessage());
-                             }
-                         }
-                         else{
-                            JOptionPane.showMessageDialog(null,errores,"Aviso",JOptionPane.ERROR_MESSAGE);
-                         }
+
+                        AbstractMap.SimpleEntry<String, Object> validacion =
+                                Validator.checkInputErrors(myGestionPanel, checkCause.insert);
+                        String errores = validacion.getKey();
+                        ProveedoresEntity p = (ProveedoresEntity) validacion.getValue();
+                        if (errores.equals("")) {
+                            if (p != null) {
+                                /*
+                                SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                                Session session = sessionFactory.openSession();
+                                Transaction tx = session.beginTransaction();
+                                session.save(p);
+                                try {
+                                    tx.commit();
+                                    ViewsController.ClearAllFields(JPDatosGestion);
+                                    JPDatosGestion.repaint();
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                */
+                                errores="";
+                                try {
+                                    ctProvs.insert(p);
+                                } catch (ConstraintViolationException cpr) {
+                                    errores = "Objeto duplicado en la base de datos\nInserción no realizada";
+                                } catch (TransientPropertyValueException tpr) {
+                                    errores ="Error entre objetos realcionados\nInserción no realizada";
+                                }
+                                if (!errores.equals(""))
+                                    JOptionPane.showMessageDialog(
+                                            null,
+                                            validacion.getKey(),
+                                            "Error",
+                                            JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    validacion.getKey(),
+                                    "Error introdución de datos",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                    case Proyectos -> {}
-                    case Piezas -> {}
+                    case Proyectos -> {
+                        AbstractMap.SimpleEntry<String, Object> validacion =
+                                Validator.checkInputErrors(myGestionPanel, checkCause.insert);
+                        String errores = validacion.getKey();
+                        ProyectosEntity p = (ProyectosEntity) validacion.getValue();
+                        if (errores.equals("")) {
+                            if (p != null) {
+                                /*
+                                SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                                Session session = sessionFactory.openSession();
+                                Transaction tx = session.beginTransaction();
+                                session.save(p);
+                                try {
+                                    tx.commit();
+                                    ViewsController.ClearAllFields(JPDatosGestion);
+                                    JPDatosGestion.repaint();
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                                */
+
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    validacion.getKey(),
+                                    "Aviso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    case Piezas -> {
+                        AbstractMap.SimpleEntry<String, Object> validacion =
+                                Validator.checkInputErrors(myGestionPanel, checkCause.insert);
+                        String errores = validacion.getKey();
+                        PiezasEntity p = (PiezasEntity) validacion.getValue();
+                        if (errores.equals("")) {
+                            if (p != null) {
+                                SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                                Session session = sessionFactory.openSession();
+                                Transaction tx = session.beginTransaction();
+                                session.save(p);
+                                try {
+                                    tx.commit();
+                                    ViewsController.ClearAllFields(JPDatosGestion);
+                                    JPDatosGestion.repaint();
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    validacion.getKey(),
+                                    "Aviso",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
             }
         });
@@ -156,7 +234,7 @@ public class GestionView {
         btConsulta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switch (tipoVentana){
+                switch (tipoVentana) {
                     case Proveedores -> {
                         //obtener lista
                         List<ProveedoresEntity> misProvs = ctProvs.getAll();
@@ -175,14 +253,15 @@ public class GestionView {
                         );
                         myListadosPanel.repaint();
                     }
-                    case Piezas -> {}
-                    case Proyectos -> {}
-                    case Asignaciones -> {}
+                    case Piezas -> {
+                    }
+                    case Proyectos -> {
+                    }
+                    case Asignaciones -> {
+                    }
                 }
             }
         });
-
-
 
 
     }

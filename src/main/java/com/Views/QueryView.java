@@ -1,11 +1,7 @@
 package com.Views;
 
 import com.Controllers.*;
-import com.Model.AsignacionesEntity;
-import com.Model.PiezasEntity;
-import com.Model.ProveedoresEntity;
-import com.Model.ProyectosEntity;
-import com.Views.CustomsViews.DinamicJpanel;
+import com.Views.DinamicJpanel;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;

@@ -2,7 +2,7 @@ package com.App;
 
 
 import com.Utils.SimpleBackGround;
-import com.Views.CustomsViews;
+import com.Views.MyMenuBar;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class Main {
         }
 
         myAppWindow.setContentPane(background);
-        myAppWindow.setJMenuBar(CustomsViews.MyMenuBar.getMyAppMenu());
+        myAppWindow.setJMenuBar(MyMenuBar.getMyAppMenu());
         myAppWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myAppWindow.setVisible(true);
         myAppWindow.setExtendedState (Frame.MAXIMIZED_BOTH);
