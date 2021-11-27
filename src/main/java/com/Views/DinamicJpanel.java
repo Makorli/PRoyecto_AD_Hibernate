@@ -12,8 +12,8 @@ import java.util.List;
 public class DinamicJpanel extends JPanel {
 
     private final MyEntitys type;
-    private HashMap<String, JTextField> fields;
-    private JPanel dataLines;
+    private final HashMap<String, HintTextField> fields;
+    private final JPanel jpDataLines;
 
     public DinamicJpanel(MyEntitys type) {
         //super(new GridLayout(0, 1));
@@ -23,6 +23,7 @@ public class DinamicJpanel extends JPanel {
         fields = new HashMap<>();
         String[] campos = new String[0];
 
+        //Definimos los campos
         switch (type) {
             /* ref -> https://stackoverflow.com/questions/8545301/put-text-boxes-in-separate-lines */
             case Proveedores -> {
@@ -40,7 +41,7 @@ public class DinamicJpanel extends JPanel {
             }
         }
 
-        this.dataLines = new JPanel(new GridLayout(campos.length, 2));
+        this.jpDataLines = new JPanel(new GridLayout(campos.length, 2));
         //JPanel dataLines = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         for (String campo : campos) {
@@ -49,26 +50,26 @@ public class DinamicJpanel extends JPanel {
             label.setMinimumSize(new Dimension(-1, -1));
 
             //TextField
-            JTextField field = new JTextField(20);
+            HintTextField field = new HintTextField(20);
             String fieldName = "tb" + campo.toLowerCase();
             field.setName(fieldName);
 
             //Anexamos los objetos al jpanel datalines
-            dataLines.add(label);
-            dataLines.add(field);
+            jpDataLines.add(label);
+            jpDataLines.add(field);
 
             //Anexamos el campo al diccionarion de la clase.
             fields.put(fieldName, field);
         }
         //Añadimos los campos a nuestra clase
-        this.add(dataLines, BorderLayout.CENTER);
+        this.add(jpDataLines, BorderLayout.CENTER);
 
         //Ponemos margen al JPanel.
         //ref -> https://stackoverflow.com/questions/5854005/setting-horizontal-and-vertical-margins
         this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     }
 
-    public HashMap<String, JTextField> getFieldsMap() {
+    public HashMap<String, HintTextField> getFieldsMap() {
         return fields;
     }
 
@@ -80,7 +81,12 @@ public class DinamicJpanel extends JPanel {
         return new ArrayList<>(this.fields.keySet());
     }
 
-    public JPanel getDataLines() {
-        return dataLines;
+    public JPanel getJpDataLines() {
+        return jpDataLines;
+    }
+
+    @Override
+    public Component[] getComponents() {
+        return super.getComponents();
     }
 }

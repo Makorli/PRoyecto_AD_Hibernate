@@ -5,6 +5,7 @@ import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
 import com.Model.ProyectosEntity;
 import com.Views.DinamicJpanel;
+import com.Views.HintTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -197,7 +198,7 @@ public class ViewsController {
      * @param dinamicJpanel con los datos del objeto
      * @return boolean si se ha podido realizar la conexión.
      */
-    public static boolean setObjectToDinamicOanel(Object o, DinamicJpanel dinamicJpanel) {
+    public static boolean setObjectToDinamicPanel(Object o, DinamicJpanel dinamicJpanel) {
         //Leemos la clase de panel dinamico que estamos manejando.
         MyEntitys myEntity = dinamicJpanel.getType();
 
@@ -272,6 +273,9 @@ public class ViewsController {
             if (myComp instanceof JTextField myTextField) {
                 myTextField.setText("");
             }
+            if (myComp instanceof HintTextField myHintTextField) {
+                myHintTextField.setText("");
+            }
         }
     }
 
@@ -287,22 +291,33 @@ public class ViewsController {
             if (myComp instanceof JTextField myTextField) {
                 myTextField.setText(myTextField.getText().trim());
             }
+            if (myComp instanceof HintTextField myHintTextField) {
+                myHintTextField.setText(myHintTextField.getText().trim());
+            }
         }
     }
 
     public static void DisableAllFields(Container myContainer) {
+        setEnableAllFields(myContainer,false);
+    }
 
-        // ref --> https://newbedev.com/java-get-jpanel-components
+    public static void EnableAllFields(Container myContainer){
+        setEnableAllFields(myContainer,true);
+    }
+
+    private static void setEnableAllFields(Container myContainer, boolean state){
         Component[] myComps = myContainer.getComponents();
 
         for (Component myComp : myComps) {
             if (myComp instanceof JPanel myPanel) {
-                DisableAllFields(myPanel);
+                setEnableAllFields(myPanel,state);
             }
             if (myComp instanceof JTextField myTextField) {
-                myTextField.setEnabled(false);
+                myTextField.setEnabled(state);
+            }
+            if (myComp instanceof HintTextField myHintTextField) {
+                myHintTextField.setEnabled(state);
             }
         }
     }
-
 }

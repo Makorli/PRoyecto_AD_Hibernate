@@ -1,8 +1,10 @@
 package com.App;
 
 
+import com.Controllers.HibernateUtil;
 import com.Utils.SimpleBackGround;
 import com.Views.MyMenuBar;
+import org.hibernate.SessionFactory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,6 +15,16 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
+
+        //Inicializamos la conexión con hibernate
+        /*
+        SessionFactory sf =HibernateUtil.getSessionFactory();
+        if (sf.isOpen()){
+            System.out.println("\nInicialización correcta BD");
+        }
+
+
+         */
 
         JFrame myAppWindow = new JFrame("Gestión de Proyectos");
 

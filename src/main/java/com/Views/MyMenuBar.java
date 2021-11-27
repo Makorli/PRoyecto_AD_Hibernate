@@ -99,7 +99,7 @@ import java.awt.event.ActionListener;
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Gestion de Piezas");
                 frame.setContentPane(new GestionView(myEntity).getJPGeneral());
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -153,7 +153,7 @@ import java.awt.event.ActionListener;
         itemGestionProyectos.addActionListener(e -> {
             JFrame frame = new JFrame("Gestion de Proyectos");
             frame.setContentPane(new GestionView(myEntity).getJPGeneral());
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
         });

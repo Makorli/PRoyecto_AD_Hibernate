@@ -1,9 +1,11 @@
 package com.Controllers;
 
+import com.Model.ProveedoresEntity;
 import com.Model.ProyectosEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -18,7 +20,10 @@ public class ProyectosDAO extends GenericDAO<ProyectosEntity> {
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        ProyectosEntity p = session.get(ProyectosEntity.class, codigo);
+        Query q = session.createQuery("from ProyectosEntity where lower(codigo) = lower( :micodigo)");
+        q.setParameter("micodigo",codigo);
+        ProyectosEntity p = (ProyectosEntity) q.uniqueResult();
+        session.close();
         return p;
     }
 
@@ -27,28 +32,4 @@ public class ProyectosDAO extends GenericDAO<ProyectosEntity> {
         return p != null;
     }
 
-    @Override
-    public void insert(ProyectosEntity proyectosEntity) {
-        super.insert(proyectosEntity);
-    }
-
-    @Override
-    public ProyectosEntity getById(int id) {
-        return super.getById(id);
-    }
-
-    @Override
-    public List<ProyectosEntity> getAll() {
-        return super.getAll();
-    }
-
-    @Override
-    public void update(ProyectosEntity proyectosEntity) {
-        super.update(proyectosEntity);
-    }
-
-    @Override
-    public void delete(ProyectosEntity proyectosEntity) {
-        super.delete(proyectosEntity);
-    }
 }

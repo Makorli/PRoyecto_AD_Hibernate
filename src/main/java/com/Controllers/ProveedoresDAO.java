@@ -4,7 +4,9 @@ import com.Model.ProveedoresEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
@@ -18,8 +20,12 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        ProveedoresEntity p = session.get(ProveedoresEntity.class, codigo);
+        Query q = session.createQuery("from ProveedoresEntity where lower(codigo) = lower( :micodigo)");
+        q.setParameter("micodigo",codigo);
+        ProveedoresEntity p = (ProveedoresEntity) q.uniqueResult();
+        session.close();
         return p;
+
     }
 
     public boolean exists(ProveedoresEntity proveedoresEntity){
@@ -27,28 +33,4 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
         return p != null;
     }
 
-    @Override
-    public void insert(ProveedoresEntity proveedores) {
-        super.insert(proveedores);
-    }
-
-    @Override
-    public ProveedoresEntity getById(int id) {
-        return super.getById(id);
-    }
-
-    @Override
-    public List<ProveedoresEntity> getAll() {
-        return super.getAll();
-    }
-
-    @Override
-    public void update(ProveedoresEntity proveedores) {
-        super.update(proveedores);
-    }
-
-    @Override
-    public void delete(ProveedoresEntity proveedores) {
-        super.delete(proveedores);
-    }
 }

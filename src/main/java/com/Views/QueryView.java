@@ -1,7 +1,6 @@
 package com.Views;
 
 import com.Controllers.*;
-import com.Views.DinamicJpanel;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
@@ -49,23 +48,18 @@ public class QueryView {
             case Proyectos -> this.ctProjects = new ProyectosDAO();
             case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
         }
+
     }
 
     private void createUIComponents() {
         //Construimos la ventana de visualizacion de objetos dinamicamente dependiendo
         // de la clase de busqueda elegida.
-        tipoVentana = ViewsController.GetSelectedModelFromString(claseBusqueda);
         myCustomPanel = ViewsController.CreateDataPanel(tipoVentana);
 
-        //Pintamos el PAnel
-        JPDatosQuery = myCustomPanel.getDataLines();
-
-        switch (tipoVentana){
-            case Proveedores -> this.ctProvs = new ProveedoresDAO();
-            case Piezas -> this.ctPiezas = new PiezasDAO();
-            case Proyectos -> this.ctProjects = new ProyectosDAO();
-            case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
-        }
+        //Pintamos el Panel
+        JPDatosQuery = myCustomPanel.getJpDataLines();
+        ViewsController.DisableAllFields(JPDatosQuery);
+        
     }
 
     //Procedimiento que inicializa los listeners del panel
