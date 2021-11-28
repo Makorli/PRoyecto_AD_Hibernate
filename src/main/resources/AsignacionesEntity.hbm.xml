@@ -8,6 +8,15 @@
         <id name="id">
             <column name="id" sql-type="int"/>
         </id>
+        <property name="idproveedor">
+            <column name="idproveedor" sql-type="int"/>
+        </property>
+        <property name="idpieza">
+            <column name="idpieza" sql-type="int"/>
+        </property>
+        <property name="idproyecto">
+            <column name="idproyecto" sql-type="int"/>
+        </property>
         <property name="cantidad">
             <column name="cantidad" sql-type="float" precision="-1"/>
         </property>

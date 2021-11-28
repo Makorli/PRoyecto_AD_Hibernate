@@ -14,15 +14,6 @@ public class ProyectosEntity {
     private String ciudad;
     private Collection<AsignacionesEntity> asignacionesById;
 
-    public ProyectosEntity(String codigo, String nombre, String ciudad) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.ciudad = ciudad;
-    }
-
-    public ProyectosEntity() {
-    }
-
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {

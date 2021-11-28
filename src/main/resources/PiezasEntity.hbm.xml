@@ -18,7 +18,7 @@
             <column name="precio" sql-type="float" precision="-1"/>
         </property>
         <property name="descripcion">
-            <column name="descripcion" sql-type="text"/>
+            <column name="descripcion" sql-type="text" not-null="true"/>
         </property>
         <set name="asignacionesById" inverse="true">
             <key>

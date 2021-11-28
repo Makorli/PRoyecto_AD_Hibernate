@@ -8,6 +8,9 @@ import java.util.Objects;
 @Table(name = "Asignaciones", schema = "gestionpiezas", catalog = "")
 public class AsignacionesEntity {
     private int id;
+    private int idproveedor;
+    private int idpieza;
+    private int idproyecto;
     private double cantidad;
     private ProveedoresEntity proveedoresByIdproveedor;
     private PiezasEntity piezasByIdpieza;
@@ -21,6 +24,36 @@ public class AsignacionesEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "idproveedor", nullable = false)
+    public int getIdproveedor() {
+        return idproveedor;
+    }
+
+    public void setIdproveedor(int idproveedor) {
+        this.idproveedor = idproveedor;
+    }
+
+    @Basic
+    @Column(name = "idpieza", nullable = false)
+    public int getIdpieza() {
+        return idpieza;
+    }
+
+    public void setIdpieza(int idpieza) {
+        this.idpieza = idpieza;
+    }
+
+    @Basic
+    @Column(name = "idproyecto", nullable = false)
+    public int getIdproyecto() {
+        return idproyecto;
+    }
+
+    public void setIdproyecto(int idproyecto) {
+        this.idproyecto = idproyecto;
     }
 
     @Basic
@@ -38,12 +71,12 @@ public class AsignacionesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AsignacionesEntity that = (AsignacionesEntity) o;
-        return id == that.id && Double.compare(that.cantidad, cantidad) == 0;
+        return id == that.id && idproveedor == that.idproveedor && idpieza == that.idpieza && idproyecto == that.idproyecto && Double.compare(that.cantidad, cantidad) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cantidad);
+        return Objects.hash(id, idproveedor, idpieza, idproyecto, cantidad);
     }
 
     @ManyToOne
