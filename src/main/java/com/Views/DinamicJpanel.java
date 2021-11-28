@@ -35,12 +35,9 @@ public class DinamicJpanel extends JPanel {
             case Proyectos -> {
                 campos = new String[]{"Codigo", "Nombre", "Ciudad"};
             }
-            case Asignaciones -> {
-            }
-            default -> {
-            }
         }
 
+        //Construimos el panel con las etiquetas y campos definidos.
         this.jpDataLines = new JPanel(new GridLayout(campos.length, 2));
         //JPanel dataLines = new JPanel(new FlowLayout(FlowLayout.CENTER));
 

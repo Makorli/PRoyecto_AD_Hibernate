@@ -191,7 +191,6 @@ public class ViewsController {
         return false;
     }
 
-
     /*** Funcion que establece los datos definidos en un objeto dentro en un DinamicPanel
      * El objeto debe ser spoportado por el dinamic panel
      * @param o Objeto a insertar en un dinamic panel
@@ -323,4 +322,6 @@ public class ViewsController {
             }
         }
     }
+
+
 }

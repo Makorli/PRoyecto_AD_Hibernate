@@ -25,7 +25,6 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
         ProveedoresEntity p = (ProveedoresEntity) q.uniqueResult();
         session.close();
         return p;
-
     }
 
     public boolean exists(ProveedoresEntity proveedoresEntity){

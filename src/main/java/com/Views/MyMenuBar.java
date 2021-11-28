@@ -190,11 +190,15 @@ import java.awt.event.ActionListener;
 
         // CREAR ASIGNACION
 
-        JMenuItem itemCrearAsignacion = new JMenuItem("Nueva Asignacion");
-        itemCrearAsignacion.setName("itemCrearAsignacionGestion");
+        JMenuItem itemCrearAsignacion = new JMenuItem("Piezas Proveedores y Proyectos");
+        itemCrearAsignacion.setName("itemAsignacionGestion");
 
         itemCrearAsignacion.addActionListener(e -> {
-            //TODO
+            JFrame frame = new JFrame("Gestion Global - Piezas, Proveedores y Proyectos");
+            frame.setContentPane(new AsignacionesView().getJPGeneral());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
 
         //Agregamos el item de asignacion
