@@ -37,7 +37,10 @@ public class GestionView {
     private JPanel JPNavegacion;
     private JPanel JPBotoneraListados;
     private JButton btConsulta;
-    private JButton btBaja;
+    private JLabel lbCurrentIdx;
+    private JLabel lbMaxIdx;
+    private JLabel lbofIdx;
+    private JPanel JPIndices;
 
     //COMPONENENTES PERSONALIZADOS DEPENDIENTES DEL TIPO DE VENTANA
     private MyEntitys tipoVentana;  //Variable define tipo de entidad.
@@ -58,7 +61,7 @@ public class GestionView {
         tipoVentana = myEntitys;
         //Inicializamos los listeners de los botones
         initListeners();
-        updateListadosPanelButtonsState();
+        updateControls();
         //Creamos el controlador especifico según el tipoVentana
         switch (tipoVentana) {
             case Proveedores -> this.ctProvs = new ProveedoresDAO();
@@ -606,7 +609,6 @@ public class GestionView {
                 //obtener lista
                 //List<ProveedoresEntity> misProvs = ctProvs.getAll();
                 populateList();
-                updateListadosPanelButtonsState();
                 //del objeto de la lista al panel
                 if (miLista.isEmpty()) {
                     JOptionPane.showMessageDialog(
@@ -617,21 +619,7 @@ public class GestionView {
                 } else {
                     listIdx = 0;
                     ViewsController.setObjectToDinamicPanel(miLista.get(listIdx), myListadosPanel);
-                    updateListadosPanelButtonsState();
-                            /*
-                            myListadosPanel.getFieldsMap().get("tbcodigo").setText(
-                                    misProvs.get(0).getCodigo()
-                            );
-                            myListadosPanel.getFieldsMap().get("tbnombre").setText(
-                                    misProvs.get(0).getNombre()
-                            );
-                            myListadosPanel.getFieldsMap().get("tbapellidos").setText(
-                                    misProvs.get(0).getApellidos()
-                            );
-                            myListadosPanel.getFieldsMap().get("tbdireccion").setText(
-                                    misProvs.get(0).getDireccion()
-                            );
-                             */
+                    updateControls();
                 }
                 myListadosPanel.repaint();
             }
@@ -642,7 +630,7 @@ public class GestionView {
             public void actionPerformed(ActionEvent e) {
                 listIdx = 0;
                 ViewsController.setObjectToDinamicPanel(miLista.get(listIdx), myListadosPanel);
-                updateListadosPanelButtonsState();
+                updateControls();
             }
         });
 
@@ -651,7 +639,7 @@ public class GestionView {
             public void actionPerformed(ActionEvent e) {
                 listIdx --;
                 ViewsController.setObjectToDinamicPanel(miLista.get(listIdx), myListadosPanel);
-                updateListadosPanelButtonsState();
+                updateControls();
             }
         });
 
@@ -660,7 +648,7 @@ public class GestionView {
             public void actionPerformed(ActionEvent e) {
                 listIdx ++;
                 ViewsController.setObjectToDinamicPanel(miLista.get(listIdx), myListadosPanel);
-                updateListadosPanelButtonsState();
+                updateControls();
             }
         });
 
@@ -669,7 +657,7 @@ public class GestionView {
             public void actionPerformed(ActionEvent e) {
                 listIdx = miLista.size()-1;
                 ViewsController.setObjectToDinamicPanel(miLista.get(listIdx), myListadosPanel);
-                updateListadosPanelButtonsState();
+                updateControls();
             }
         });
 
@@ -680,16 +668,15 @@ public class GestionView {
             }
         });
 
-        btBaja.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
         //  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
     }
 
+    private void updateControls(){
+        updateListadosPanelButtonsState();
+        updateIndicesPanelState();
+    }
+    
+    
     /**
      * Procedimeinto de control de los botnoes del listado en funcion de la lista y el indice
      * actual seleccionado
@@ -721,6 +708,23 @@ public class GestionView {
                 btListadosAtras.setEnabled(true);
             }
         }
+    }
+
+    /**
+     * Procedimiento que actualiza el estado de los label contenidos en el panel JPIndices
+     * en base a los resultados de la que se esá manejando.
+     */
+    private void updateIndicesPanelState(){
+        if (miLista==null || miLista.isEmpty()){
+            lbCurrentIdx.setText("¡Pulsa!");
+            lbofIdx.setText("");
+            lbMaxIdx.setText("");
+        } else {
+            lbCurrentIdx.setText(String.valueOf(listIdx+1));
+            lbofIdx.setText(" de ");
+            lbMaxIdx.setText(String.valueOf(miLista.size()));
+        }
+        
     }
 
     /**
