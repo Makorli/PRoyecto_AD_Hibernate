@@ -23,7 +23,7 @@ public class QueryView {
 
     //COMPONENENTES PERSONALIZADOS  Y DEPENDIENTES DEL TIPO DE VENTANA
     MyEntitys tipoVentana;  //Tipo de Objeto que muestra el QueryView
-    private String campoBusqueda; // Campo por el que se realiza la busqueda
+    private final String campoBusqueda; // Campo por el que se realiza la busqueda
     private DinamicJpanel myCustomPanel;
 
     //Controladores Posibles
@@ -67,7 +67,6 @@ public class QueryView {
 
     }
 
-
     //Procedimiento que inicializa los listeners del panel
     public void initListeners() {
 
@@ -75,34 +74,62 @@ public class QueryView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String myValue = tfBusqueda.getText().trim();
-                if (myValue.equals(" ")) {
-                    miLista.clear();
-                } else {
-                    switch (tipoVentana) {
-                        case Proveedores -> {
-                            //{"Codigo", "Nombre", "Apellidos", "Direccion"}
-                            miLista = ctProvs.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
-                        }
-                        case Piezas -> {
-                            //{"Codigo", "Nombre", "Precio", "Descripcion"}
-                            miLista = ctPiezas.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
-                        }
-                        case Proyectos -> {
-                            //{"Codigo", "Nombre", "Ciudad"}
-                            miLista = ctProjects.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
-                        }
+                ViewsController.ClearAllFields(JPGeneral);
+                //Ejecutamos la busqueda
+                switch (tipoVentana) {
+                    case Proveedores -> {
+                        //{"Codigo", "Nombre", "Apellidos", "Direccion"}
+                        miLista = ctProvs.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
+                    }
+                    case Piezas -> {
+                        //{"Codigo", "Nombre", "Precio", "Descripcion"}
+                        miLista = ctPiezas.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
+                    }
+                    case Proyectos -> {
+                        //{"Codigo", "Nombre", "Ciudad"}
+                        miLista = ctProjects.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
                     }
                 }
                 loadCbSelector(miLista);
-                JPGeneral.repaint();
+                //Si solo hay un elemento en la lista lo cargamos directamente.
+                switch (miLista.size()) {
+                    //No hay resultado de la busqueda mostramos mensaje de aviso
+                    case 0: {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "No se han encontrado resultados",
+                                "Busquedas",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    }
+                    //Seleccionamos el único objeto de la busqueda y lo cargamos en el panel.
+                    case 1: {
+                        cbSelector.setSelectedIndex(0);
+                        ViewsController.setObjectToDinamicPanel(
+                                cbSelector.getSelectedItem(),
+                                myCustomPanel);
+                        myCustomPanel.repaint();
+                        break;
+                    }
+                    //Busqueda devuelve más de un resultado
+                    default: {
+                        myCustomPanel.repaint();
+                        break;
+                    }
+                }
             }
         });
 
         cbSelector.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                //Solo realizamos cambios en el panel si el Combobox ha cambiado realmente.
-                if (e.getStateChange() == ItemEvent.SELECTED) {
+                //Solo realizamos cambios en el panel si el Combobox ha cambiado realmente
+
+                int items = cbSelector.getItemCount();
+                boolean isChanged = (e.getStateChange() == ItemEvent.SELECTED);
+
+                //Si el combobox contiene elementos y ha cambiado su estado.
+                if (items > 0 && isChanged) {
                     Object o = cbSelector.getSelectedItem();
                     assert o != null;
                     ViewsController.setObjectToDinamicPanel(o, myCustomPanel);

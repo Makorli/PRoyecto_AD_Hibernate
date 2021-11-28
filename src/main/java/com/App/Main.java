@@ -19,10 +19,22 @@ public class Main {
     public static void main(String[] args) {
 
         //Inicializamos la conexión con hibernate
+        System.out.println("Inicializando Hibernate.....");
         SessionFactory sf =HibernateUtil.getSessionFactory();
+
+        //Si hemos inicializado correctamente
         if (sf.isOpen()){
             System.out.println("\nInicialización correcta BD");
+            //Lanzamos la aplicación
+            appLauncher(sf);
         }
+        else {
+            System.out.println("Error inicialización ORM Hibernate....no su puede iniciar Aplicación");
+        }
+
+    }
+
+    public static void appLauncher(SessionFactory sessionFactory){
 
         JFrame myAppWindow = new JFrame("Gestión de Proyectos");
 
@@ -45,11 +57,10 @@ public class Main {
         myAppWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                sf.close();
                 System.out.println("Cerrando bases de datos");
+                sessionFactory.close();
             }
         });
     }
-
 
 }
