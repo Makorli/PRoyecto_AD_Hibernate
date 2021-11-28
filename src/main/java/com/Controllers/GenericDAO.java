@@ -75,6 +75,25 @@ public abstract class GenericDAO<T> {
          */
     }
 
+    public List<T> getAllByStringSearch(String campo, String valor){
+        valor=valor.trim();
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+
+        String className = T.toString();
+        className = className.substring(className.lastIndexOf('.') + 1);
+
+        String strQuery = String.format("from %s where lower(%s) like lower(:%s)", className,campo,campo);
+        Query query = session.createQuery(strQuery);
+        query.setParameter(campo,valor.trim());
+
+        List myList = query.list();
+        session.close();
+        return new ArrayList<T>(myList);
+    }
+
     //UPDATE
     public boolean update(T t) {
         SessionFactory sessionfactory = HibernateUtil.getSessionFactory();

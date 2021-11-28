@@ -212,6 +212,7 @@ public class ViewsController {
                     dinamicJpanel.getFieldsMap().get("tbnombre").setText(p.getNombre());
                     dinamicJpanel.getFieldsMap().get("tbapellidos").setText(p.getApellidos());
                     dinamicJpanel.getFieldsMap().get("tbdireccion").setText(p.getDireccion());
+                    dinamicJpanel.getJpDataLines().repaint();
                 }
             }
             case Piezas -> {
@@ -221,6 +222,7 @@ public class ViewsController {
                     dinamicJpanel.getFieldsMap().get("tbnombre").setText(p.getNombre());
                     dinamicJpanel.getFieldsMap().get("tbprecio").setText(String.valueOf(p.getPrecio()));
                     dinamicJpanel.getFieldsMap().get("tbdescripcion").setText(p.getDescripcion());
+                    dinamicJpanel.getJpDataLines().repaint();
                 }
             }
             case Proyectos -> {
@@ -229,6 +231,7 @@ public class ViewsController {
                     dinamicJpanel.getFieldsMap().get("tbcodigo").setText(p.getCodigo());
                     dinamicJpanel.getFieldsMap().get("tbnombre").setText(p.getNombre());
                     dinamicJpanel.getFieldsMap().get("tbciudad").setText(p.getCiudad());
+                    dinamicJpanel.getJpDataLines().repaint();
                 }
             }
             case Asignaciones -> {

@@ -1,10 +1,15 @@
 package com.Views;
 
 import com.Controllers.*;
+import com.Model.PiezasEntity;
+import com.Model.ProveedoresEntity;
+import com.Model.ProyectosEntity;
 
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryView {
     private JPanel JPGeneral;
@@ -16,19 +21,18 @@ public class QueryView {
     private JPanel JPSelector;
     private JLabel lbDescripcion;
 
-    //Variables de tipo de busqueda
-    private String claseBusqueda;
-    private String campoBusqueda;
-
+    //COMPONENENTES PERSONALIZADOS  Y DEPENDIENTES DEL TIPO DE VENTANA
     MyEntitys tipoVentana;  //Tipo de Objeto que muestra el QueryView
-    private DinamicJpanel myCustomPanel; //Panel personalizado
-    GenericDAO controller;
+    private String campoBusqueda; // Campo por el que se realiza la busqueda
+    private DinamicJpanel myCustomPanel;
 
     //Controladores Posibles
     private ProveedoresDAO ctProvs; //Controlador de Proveedores
     private ProyectosDAO ctProjects; //Controlador de Proyectos
     private PiezasDAO ctPiezas; //Controlador de Piezas
-    private AsignacionesDAO ctAsigns; //Controlador de Asignaciones
+
+    //List generica e indices de control
+    private List miLista;
 
 
     //CONSTRUCTORES
@@ -37,18 +41,19 @@ public class QueryView {
         tipoVentana = myEntitys;
         this.campoBusqueda = campo;
         this.lbDescripcion.setText(
-                String.format("Escribe %s o una parte", this.campoBusqueda.toUpperCase())
+                String.format("Escribe %S o una parte", this.campoBusqueda)
         );
         //Inicializamos los listeners de los botones
         initListeners();
+
+        //Inicializamos la lista de busquedas.
+        miLista = new ArrayList();
         //Creamos el controlador especifico seún el tipoVentana
-        switch (tipoVentana){
+        switch (tipoVentana) {
             case Proveedores -> this.ctProvs = new ProveedoresDAO();
             case Piezas -> this.ctPiezas = new PiezasDAO();
             case Proyectos -> this.ctProjects = new ProyectosDAO();
-            case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
         }
-
     }
 
     private void createUIComponents() {
@@ -59,28 +64,131 @@ public class QueryView {
         //Pintamos el Panel
         JPDatosQuery = myCustomPanel.getJpDataLines();
         ViewsController.DisableAllFields(JPDatosQuery);
-        
+
     }
 
+
     //Procedimiento que inicializa los listeners del panel
-    public void initListeners(){
-        tfBusqueda.addKeyListener(new KeyAdapter() {
+    public void initListeners() {
+
+        btBuscar.addActionListener(new ActionListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                switch (tipoVentana){
-                    case Proveedores -> {
-                        //{"Codigo", "Nombre", "Apellidos", "Direccion"}
+            public void actionPerformed(ActionEvent e) {
+                String myValue = tfBusqueda.getText().trim();
+                if (myValue.equals(" ")) {
+                    miLista.clear();
+                } else {
+                    switch (tipoVentana) {
+                        case Proveedores -> {
+                            //{"Codigo", "Nombre", "Apellidos", "Direccion"}
+                            miLista = ctProvs.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
+                        }
+                        case Piezas -> {
+                            //{"Codigo", "Nombre", "Precio", "Descripcion"}
+                            miLista = ctPiezas.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
+                        }
+                        case Proyectos -> {
+                            //{"Codigo", "Nombre", "Ciudad"}
+                            miLista = ctProjects.getAllByStringSearch(campoBusqueda, "%" + myValue + "%");
+                        }
                     }
-                    case Piezas -> {
-                        //{"Codigo", "Nombre", "Precio", "Descripcion"}
-                    }
-                    case Proyectos -> {
-                        //{"Codigo", "Nombre", "Ciudad"}
-                    }
-                    case Asignaciones -> {}
+                }
+                loadCbSelector(miLista);
+                JPGeneral.repaint();
+            }
+        });
+
+        cbSelector.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                //Solo realizamos cambios en el panel si el Combobox ha cambiado realmente.
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    Object o = cbSelector.getSelectedItem();
+                    assert o != null;
+                    ViewsController.setObjectToDinamicPanel(o, myCustomPanel);
+                    myCustomPanel.repaint();
                 }
             }
         });
+
+
+    }
+
+    /**
+     * Procedimiento de carga de una lista generica en un combobox
+     *
+     * @param list
+     */
+    private void loadCbSelector(List list) {
+        DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel<>();
+
+        for (Object p : new ArrayList<>(list)) {
+            defaultComboBoxModel.addElement(p);
+        }
+        cbSelector.setModel(defaultComboBoxModel);
+        cbSelector.setRenderer(new searchFieldRenderer());
+    }
+
+    /**
+     * Clase especifica de renderizado para el combobox de la vista.
+     * Admite diferentes tipos de objetos seleccionando el campo apropiado para mostrar en funcion
+     * del campo de busqueda especificado en la ventana.
+     */
+    private class searchFieldRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                      boolean isSelected, boolean cellHasFocus) {
+
+            String cb = campoBusqueda.toLowerCase();
+            if (value instanceof ProveedoresEntity) {
+                ProveedoresEntity p = (ProveedoresEntity) value;
+                switch (cb) {
+                    case "codigo" -> {
+                        String.format("%S - (%s %s)", p.getCodigo(), p.getNombre(), p.getApellidos());
+                        value = String.format("%S - (%s %s)", p.getCodigo(), p.getNombre(), p.getApellidos());
+                    }
+                    case "nombre" -> {
+                        value = String.format("%s - ( %S %s)", p.getCodigo(), p.getNombre(), p.getApellidos());
+                    }
+                    case "apellidos" -> {
+                        value = String.format("%s - (%s %S)", p.getCodigo(), p.getNombre(), p.getApellidos());
+                    }
+                    case "direccion" -> {
+                        value = String.format("%S - (%s %s) %s", p.getCodigo(), p.getNombre(), p.getApellidos(), p.getDireccion());
+                    }
+                }
+            } else if (value instanceof ProyectosEntity) {
+                ProyectosEntity p = (ProyectosEntity) value;
+                switch (cb) {
+                    case "codigo" -> {
+                        value = String.format("%S - (%s)", p.getCodigo(), p.getNombre());
+                    }
+                    case "nombre" -> {
+                        value = String.format("%S - (%s)", p.getNombre(), p.getCodigo());
+                    }
+                    case "ciudad" -> {
+                        value = String.format("%S - (%s) %S", p.getCodigo(), p.getNombre(), p.getCiudad());
+                    }
+                }
+            } else if (value instanceof PiezasEntity) {
+                PiezasEntity p = (PiezasEntity) value;
+                switch (cb) {
+                    case "codigo" -> {
+                        value = String.format("%S - (%s)", p.getCodigo(), p.getNombre());
+                    }
+                    case "nombre" -> {
+                        value = String.format("%S - (%s)", p.getNombre(), p.getCodigo());
+                    }
+                    case "descripcion" -> {
+                        value = String.format("%S - (%s) - %S", p.getCodigo(), p.getNombre(), p.getDescripcion());
+                    }
+                }
+            }
+
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+
     }
 
     public JPanel getJPGeneral() {

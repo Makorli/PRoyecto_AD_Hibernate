@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,14 +19,10 @@ public class Main {
     public static void main(String[] args) {
 
         //Inicializamos la conexión con hibernate
-        /*
         SessionFactory sf =HibernateUtil.getSessionFactory();
         if (sf.isOpen()){
             System.out.println("\nInicialización correcta BD");
         }
-
-
-         */
 
         JFrame myAppWindow = new JFrame("Gestión de Proyectos");
 
@@ -43,6 +41,14 @@ public class Main {
         myAppWindow.setVisible(true);
         myAppWindow.setExtendedState (Frame.MAXIMIZED_BOTH);
 
+        //Añadir evento del cierre de ventana para controlar el cierre de la conexion de Base de datos.
+        myAppWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                sf.close();
+                System.out.println("Cerrando bases de datos");
+            }
+        });
     }
 
 

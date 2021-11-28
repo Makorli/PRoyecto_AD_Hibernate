@@ -1,21 +1,17 @@
 package com.Views;
 
 import com.Controllers.*;
-import com.Model.AsignacionesEntity;
-import com.Model.PiezasEntity;
-import com.Model.ProveedoresEntity;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.Controllers.Validator.*;
 import com.Model.ProyectosEntity;
-import org.dom4j.rule.Action;
+import com.Model.PiezasEntity;
+import com.Model.ProveedoresEntity;
 
 public class GestionView {
 
@@ -43,25 +39,17 @@ public class GestionView {
     private JButton btConsulta;
     private JButton btBaja;
 
-    //COMPONENENTES PANEL DE LISTADOS
-    private MyEntitys tipoVentana;
+    //COMPONENENTES PERSONALIZADOS DEPENDIENTES DEL TIPO DE VENTANA
+    private MyEntitys tipoVentana;  //Variable define tipo de entidad.
     private DinamicJpanel myGestionPanel;
     private DinamicJpanel myListadosPanel;
 
-    //Controladores
+    //Controladores de entidades utilizadas en las ventanas.
     private ProveedoresDAO ctProvs; //Controlador de Proveedores
     private ProyectosDAO ctProjects; //Controlador de Proyectos
     private PiezasDAO ctPiezas; //Controlador de Piezas
-    private AsignacionesDAO ctAsigns; //Controlador de Asignaciones
 
-    //Listados
-    private List<ProveedoresEntity> myProvsList;
-    private List<ProyectosEntity> myProjectsList;
-    private List<PiezasEntity> myPiezasList;
-    private List<AsignacionesEntity> myAsignacionesList;
-
-    //Controlador y List genericas e indices de control
-    Object controlador;
+    //List generica e indices de control
     private List miLista;
     private int listIdx;
 
@@ -76,12 +64,7 @@ public class GestionView {
             case Proveedores -> this.ctProvs = new ProveedoresDAO();
             case Piezas -> this.ctPiezas = new PiezasDAO();
             case Proyectos -> this.ctProjects = new ProyectosDAO();
-            case Asignaciones -> this.ctAsigns = new AsignacionesDAO();
         }
-    }
-
-    public JPanel getJPGeneral() {
-        return JPGeneral;
     }
 
     private void createUIComponents() {
@@ -103,6 +86,9 @@ public class GestionView {
 
     }
 
+    /**
+     * Procedimiento de creación de listener
+     */
     private void initListeners() {
         //  *  *  *  *  PESTAÑA DATOS GESTION  *  *  *  *  *
         // limpiarButton , insertarButton , modificarButton , eliminarButton
@@ -737,6 +723,9 @@ public class GestionView {
         }
     }
 
+    /**
+     * Procedmiento de carga de lista mostrada en el panel myListadosPanel
+     */
     private void populateList() {
         switch (tipoVentana) {
             case Proveedores -> {
@@ -758,6 +747,10 @@ public class GestionView {
                     String.format("Listado de %s", tipoVentana.toString()),
                     JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    public JPanel getJPGeneral() {
+        return JPGeneral;
     }
 
 }

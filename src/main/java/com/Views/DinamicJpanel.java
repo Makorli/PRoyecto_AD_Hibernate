@@ -85,8 +85,4 @@ public class DinamicJpanel extends JPanel {
         return jpDataLines;
     }
 
-    @Override
-    public Component[] getComponents() {
-        return super.getComponents();
-    }
 }
