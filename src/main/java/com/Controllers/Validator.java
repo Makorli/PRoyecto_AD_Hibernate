@@ -7,10 +7,13 @@ import com.Model.ProyectosEntity;
 import com.Utils.Checkers;
 import com.Views.DinamicJpanel;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.AbstractMap;
 import java.util.HashMap;
 
 public class Validator {
+
 
     public enum checkCause {
         insert,
@@ -60,6 +63,7 @@ public class Validator {
         }
         return new AbstractMap.SimpleEntry<>("", null);
     }
+
 
     /**
      * Funcion que valida los datos del proveedor contenido en nuestro dinamic panel en base a un
@@ -139,8 +143,8 @@ public class Validator {
                     //CODIGO COMPROBACION DE CODIGO O ID INEXISTENTE
                     proveedoresEntity.setCodigo(
                             dinamicJpanel.getFieldsMap().get("tbcodigo").getText());
-                    proveedoresEntity= new ProveedoresDAO().getByCodigo(codigo);
-                    if (proveedoresEntity==null)
+                    proveedoresEntity = new ProveedoresDAO().getByCodigo(codigo);
+                    if (proveedoresEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
                 }
             }
@@ -168,15 +172,14 @@ public class Validator {
                         String nombre = dinamicJpanel.getFieldsMap().get("tbnombre").getText();
                         if (nombre.equals("")) {
                             proveedoresEntity.setNombre(proveedorOld.getNombre());
-                            changesMap.put("Nombre",String.format("Nombre: %S",proveedorOld.getNombre()));
-                        }
-                        else {
+                            changesMap.put("Nombre", String.format("Nombre: %S", proveedorOld.getNombre()));
+                        } else {
                             if (!Checkers.isOKStrMaxLenght(nombre, 20))
                                 erroresMap.put("Nombre", "El NOMBRE excede en longitud. MAX 20.");
                             else {
                                 proveedoresEntity.setNombre(
                                         dinamicJpanel.getFieldsMap().get("tbnombre").getText());
-                                changesMap.put("Nombre",String.format("Nombre: %S --> %S",
+                                changesMap.put("Nombre", String.format("Nombre: %S --> %S",
                                         proveedorOld.getNombre(),
                                         proveedoresEntity.getNombre()));
                             }
@@ -189,7 +192,7 @@ public class Validator {
                         else {
                             proveedoresEntity.setApellidos(
                                     dinamicJpanel.getFieldsMap().get("tbapellidos").getText());
-                            changesMap.put("Apellidos",String.format("Apellidos: %S --> %S",
+                            changesMap.put("Apellidos", String.format("Apellidos: %S --> %S",
                                     proveedorOld.getApellidos(),
                                     proveedoresEntity.getApellidos()));
                         }
@@ -200,18 +203,17 @@ public class Validator {
                         else {
                             proveedoresEntity.setDireccion(
                                     dinamicJpanel.getFieldsMap().get("tbdireccion").getText());
-                            changesMap.put("Direccion",String.format("Direccion: %S --> %S",
+                            changesMap.put("Direccion", String.format("Direccion: %S --> %S",
                                     proveedorOld.getDireccion(),
                                     proveedoresEntity.getDireccion()));
                         }
 
                         //SI NO HAY ERRORES RETORNAMOS VERIFICAMOS DI HAY CAMBIOS Y LOS
                         // RETORNAMOS COMO MENSAJES JUNTO CON EL OBJETO PREPARADO PARA SER ACTUALIZADO
-                        if (erroresMap.size()==0){
-                            if (proveedoresEntity.equals(proveedorOld)){
-                                System.out.println("No se han detectado modificaciones");
-                            }
-                            else {
+                        if (erroresMap.size() == 0) {
+                            if (proveedoresEntity.equals(proveedorOld)) {
+                                erroresMap.put("Proveedor", "No se han detectado modificaciones");
+                            } else {
                                 //Guardamos todos los errores en un único String para devolverlo
                                 StringBuilder changes = new StringBuilder();
                                 for (String change : changesMap.values()) changes.append(change).append("\n");
@@ -299,8 +301,8 @@ public class Validator {
                     //CODIGO COMPROBACION DE CODIGO O ID INEXISTENTE
                     proyectosEntity.setCodigo(
                             dinamicJpanel.getFieldsMap().get("tbcodigo").getText());
-                    proyectosEntity= new ProyectosDAO().getByCodigo(codigo);
-                    if (proyectosEntity==null)
+                    proyectosEntity = new ProyectosDAO().getByCodigo(codigo);
+                    if (proyectosEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
                 }
             }
@@ -328,15 +330,14 @@ public class Validator {
                         String nombre = dinamicJpanel.getFieldsMap().get("tbnombre").getText();
                         if (nombre.equals("")) {
                             proyectosEntity.setNombre(proyectoOld.getNombre());
-                            changesMap.put("Nombre",String.format("Nombre: %S",proyectoOld.getNombre()));
-                        }
-                        else {
+                            changesMap.put("Nombre", String.format("Nombre: %S", proyectoOld.getNombre()));
+                        } else {
                             if (!Checkers.isOKStrMaxLenght(nombre, 40))
                                 erroresMap.put("Nombre", "El NOMBRE excede en longitud. MAX 20.");
                             else {
                                 proyectosEntity.setNombre(
                                         dinamicJpanel.getFieldsMap().get("tbnombre").getText());
-                                changesMap.put("Nombre",String.format("Nombre: %S --> %S",
+                                changesMap.put("Nombre", String.format("Nombre: %S --> %S",
                                         proyectoOld.getNombre(),
                                         proyectosEntity.getNombre()));
                             }
@@ -349,18 +350,17 @@ public class Validator {
                         else {
                             proyectosEntity.setCiudad(
                                     dinamicJpanel.getFieldsMap().get("tbciudad").getText());
-                            changesMap.put("Ciudad",String.format("Ciudad: %S --> %S",
+                            changesMap.put("Ciudad", String.format("Ciudad: %S --> %S",
                                     proyectoOld.getCiudad(),
                                     proyectosEntity.getCiudad()));
                         }
 
                         //SI NO HAY ERRORES RETORNAMOS VERIFICAMOS DI HAY CAMBIOS Y LOS
                         // RETORNAMOS COMO MENSAJES JUNTO CON EL OBJETO PREPARADO PARA SER ACTUALIZADO
-                        if (erroresMap.size()==0){
-                            if (proyectosEntity.equals(proyectoOld)){
-                                System.out.println("No se han detectado modificaciones");
-                            }
-                            else {
+                        if (erroresMap.size() == 0) {
+                            if (proyectosEntity.equals(proyectoOld)) {
+                                erroresMap.put("Proyecto", "No se han detectado modificaciones");
+                            } else {
                                 //Guardamos todos los errores en un único String para devolverlo
                                 StringBuilder changes = new StringBuilder();
                                 for (String change : changesMap.values()) changes.append(change).append("\n");
@@ -448,8 +448,8 @@ public class Validator {
                     //CODIGO COMPROBACION DE CODIGO O ID INEXISTENTE
                     piezasEntity.setCodigo(
                             dinamicJpanel.getFieldsMap().get("tbcodigo").getText());
-                    piezasEntity= new PiezasDAO().getByCodigo(codigo);
-                    if (piezasEntity==null)
+                    piezasEntity = new PiezasDAO().getByCodigo(codigo);
+                    if (piezasEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
                 }
             }
@@ -477,15 +477,14 @@ public class Validator {
                         String nombre = dinamicJpanel.getFieldsMap().get("tbnombre").getText();
                         if (nombre.equals("")) {
                             piezasEntity.setNombre(piezasOld.getNombre());
-                            changesMap.put("Nombre",String.format("Nombre: %S",piezasOld.getNombre()));
-                        }
-                        else {
+                            changesMap.put("Nombre", String.format("Nombre: %S", piezasOld.getNombre()));
+                        } else {
                             if (!Checkers.isOKStrMaxLenght(nombre, 20))
                                 erroresMap.put("Nombre", "El NOMBRE excede en longitud. MAX 20.");
                             else {
                                 piezasEntity.setNombre(
                                         dinamicJpanel.getFieldsMap().get("tbnombre").getText());
-                                changesMap.put("Nombre",String.format("Nombre: %S --> %S",
+                                changesMap.put("Nombre", String.format("Nombre: %S --> %S",
                                         piezasOld.getNombre(),
                                         piezasEntity.getNombre()));
                             }
@@ -498,20 +497,18 @@ public class Validator {
                         else {
                             piezasEntity.setPrecio(
                                     Double.parseDouble(dinamicJpanel.getFieldsMap().get("tbprecio").getText()));
-                            changesMap.put("Ciudad",String.format("Precio: %2f --> %2f",
+                            changesMap.put("Ciudad", String.format("Precio: %2f --> %2f",
                                     piezasOld.getPrecio(),
                                     piezasEntity.getPrecio()));
                         }
 
 
-
-                        //SI NO HAY ERRORES RETORNAMOS VERIFICAMOS DI HAY CAMBIOS Y LOS
+                        //SI NO HAY ERRORES RETORNAMOS VERIFICAMOS SI HAY CAMBIOS Y LOS
                         // RETORNAMOS COMO MENSAJES JUNTO CON EL OBJETO PREPARADO PARA SER ACTUALIZADO
-                        if (erroresMap.size()==0){
-                            if (piezasEntity.equals(piezasOld)){
-                                System.out.println("No se han detectado modificaciones");
-                            }
-                            else {
+                        if (erroresMap.size() == 0) {
+                            if (piezasEntity.equals(piezasOld)) {
+                                erroresMap.put("Pieza", "No se han detectado modificaciones");
+                            } else {
                                 //Guardamos todos los errores en un único String para devolverlo
                                 StringBuilder changes = new StringBuilder();
                                 for (String change : changesMap.values()) changes.append(change).append("\n");
@@ -541,6 +538,13 @@ public class Validator {
     private static AbstractMap.SimpleEntry<String, Object>
     asignacionesChecker(DinamicJpanel dinamicJpanel, checkCause cause) {
 
+        /*        id ->int
+                  idproveedor->int
+                  idproyecto->int
+                  idpieza->int
+                  cantidad->float
+         */
+
         //Diccionario donde almacenaremos los errores
         HashMap<String, String> erroresMap = new HashMap<>();
         AsignacionesEntity asignacionesEntity = new AsignacionesEntity();
@@ -549,12 +553,84 @@ public class Validator {
         //SI NO SE GUARDA ALMACENAN LOS ERRORES EN UN HASHMAP
         //LAS COMPROBACIONES PUEDEN VARIAR DEPENDIENDO DEL TIPO DE OPERACION PARA LA QUE SE REALIZA
 
+        //COMPROBACIONES GENERICAS DE SELECCION DE LOS COMBOS
+
+        //PROVEEDOR SELECCIONADO EN COMBOBOX
+        ProveedoresEntity prov = (ProveedoresEntity) ((JComboBox) dinamicJpanel.getAsignacionesFieldsMap().get("cbprov")).getSelectedItem();
+        if (prov == null) {
+            erroresMap.put("Proveedor", "Debes seleccionar un proveedor");
+        } else
+            asignacionesEntity.setIdproveedor(prov.getId());
+
+        //PROYECTO SELECCIONADO EN COMBOBOX
+        ProyectosEntity proyecto = (ProyectosEntity) ((JComboBox) dinamicJpanel.getAsignacionesFieldsMap().get("cbproyecto")).getSelectedItem();
+        if (proyecto == null) {
+            erroresMap.put("Proyecto", "Debes seleccionar un proyecto");
+        } else asignacionesEntity.setIdproyecto(proyecto.getId());
+
+        //PROVEEDOR SELECCIONADO EN COMBOBOX
+        PiezasEntity pieza = (PiezasEntity) ((JComboBox) dinamicJpanel.getAsignacionesFieldsMap().get("cbpieza")).getSelectedItem();
+        if (pieza == null) {
+            erroresMap.put("Pieza", "Debes seleccionar un pieza ");
+        } else asignacionesEntity.setIdpieza(pieza.getId());
+
+        //COMPROBACIONES ESPECIFICAS DE CADA OPERACION
         switch (cause) {
             case insert -> {
+                //COMPROBAMOS CANTIDAD
+                //VERIFICAMOS QUE SEA UNA ENTRADA DE ASIGNACIONES INEXISTENTE
+
+                //CANTIDAD
+                String cantidad = ((JTextField) dinamicJpanel.getAsignacionesFieldsMap().get("tfcantidad")).getText().trim();
+                if (!Checkers.ckStrIsDouble(cantidad)) {
+                    erroresMap.put("Cantidad", "La cantidad introducidad debe ser númerica");
+                } else asignacionesEntity.setCantidad(Double.parseDouble(cantidad));
+
+                //Si los campos son correctos comprobamos que si existe una asignación en la base de datos.
+                if (erroresMap.isEmpty() && new AsignacionesDAO().exists(asignacionesEntity))
+                    erroresMap.put("Asignaciones", "Ya existe una entrada con esos parametros. Se debe editar.");
             }
             case delete -> {
+                //COMPROBAMOS LA SELECCION DE LOS COMBOS
+                //VERIFICAMOS QUE SEA UNA ENTRADA DE ASIGNACIONES INEXISTENTE
+
+                //Si los campos son correctos comprobamos que exista la asignación en la base de datos.
+                if (erroresMap.isEmpty()) {
+                    asignacionesEntity = new AsignacionesDAO().getByProvProyPie(
+                            asignacionesEntity.getIdproveedor(),
+                            asignacionesEntity.getIdproyecto(),
+                            asignacionesEntity.getIdpieza());
+                    if (asignacionesEntity == null)
+                        erroresMap.put("Asignaciones", "No existe la asignación especificada.");
+                }
+
             }
             case update -> {
+                //COMPROBAMOS LA CANTIDAD
+                //VERIFICAMOS QUE SEA UNA ENTRADA DE ASIGNACIONES EXISTENTE PARA PODER SER MODIFICADA
+
+                //CANTIDAD
+                String cantidad = ((JTextField) dinamicJpanel.getAsignacionesFieldsMap().get("tfcantidad")).getText().trim();
+                if (!Checkers.ckStrIsDouble(cantidad)) {
+                    erroresMap.put("Cantidad", "La cantidad introducidad debe ser númerica");
+                } else asignacionesEntity.setCantidad(Double.parseDouble(cantidad));
+
+                //Si los campos son correctos comprobamos que exista la asignación en la base de datos.
+                if (erroresMap.isEmpty()) {
+                    AsignacionesEntity asignacionesOld = new AsignacionesDAO().getByProvProyPie(
+                            asignacionesEntity.getIdproveedor(),
+                            asignacionesEntity.getIdproyecto(),
+                            asignacionesEntity.getIdpieza());
+                    if (asignacionesOld == null)
+                        erroresMap.put("Asignaciones", "No existe la asignación especificada.");
+                    else {
+                        //Terminamos de prepara el objeto para la insercion en la BBDD
+                        asignacionesEntity.setId(asignacionesOld.getId());
+                        //Preguntamos si ha habido cambios
+                        if (asignacionesOld.equals(asignacionesEntity))
+                        erroresMap.put("Asignaciones", "No se han realizado cambios.");
+                    }
+                }
             }
         }
 
@@ -567,7 +643,6 @@ public class Validator {
             asignacionesEntity = null;
         }
         return new AbstractMap.SimpleEntry<>(errores.toString(), asignacionesEntity);
-
     }
 
 }

@@ -50,7 +50,7 @@ public abstract class GenericDAO<T> {
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
         Transaction tx = session.beginTransaction();
-        Object o = session.get(T.getClass(), id);
+        Object o = session.get((T).getClass(), id);
         return (T) o;
     }
 

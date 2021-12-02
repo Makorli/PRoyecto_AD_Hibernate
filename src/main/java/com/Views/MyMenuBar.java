@@ -210,7 +210,11 @@ import java.awt.event.ActionListener;
         itemSuministrosProveedor.setName("itemSuministrosProveedorGestion");
 
         itemSuministrosProveedor.addActionListener(e -> {
-            //TODO
+            JFrame frame = new JFrame("Suministros por Proveedor");
+            frame.setContentPane(new SuministrosProveedor().getJPGeneral());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
 
         //Agregamos el item de Sumnistros por Proveedor

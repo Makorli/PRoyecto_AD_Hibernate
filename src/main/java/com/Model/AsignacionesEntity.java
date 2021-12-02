@@ -12,9 +12,6 @@ public class AsignacionesEntity {
     private int idpieza;
     private int idproyecto;
     private double cantidad;
-    private ProveedoresEntity proveedoresByIdproveedor;
-    private PiezasEntity piezasByIdpieza;
-    private ProyectosEntity proyectosByIdproyecto;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -77,35 +74,5 @@ public class AsignacionesEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, idproveedor, idpieza, idproyecto, cantidad);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idproveedor", referencedColumnName = "id", nullable = false)
-    public ProveedoresEntity getProveedoresByIdproveedor() {
-        return proveedoresByIdproveedor;
-    }
-
-    public void setProveedoresByIdproveedor(ProveedoresEntity proveedoresByIdproveedor) {
-        this.proveedoresByIdproveedor = proveedoresByIdproveedor;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idpieza", referencedColumnName = "id", nullable = false)
-    public PiezasEntity getPiezasByIdpieza() {
-        return piezasByIdpieza;
-    }
-
-    public void setPiezasByIdpieza(PiezasEntity piezasByIdpieza) {
-        this.piezasByIdpieza = piezasByIdpieza;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idproyecto", referencedColumnName = "id", nullable = false)
-    public ProyectosEntity getProyectosByIdproyecto() {
-        return proyectosByIdproyecto;
-    }
-
-    public void setProyectosByIdproyecto(ProyectosEntity proyectosByIdproyecto) {
-        this.proyectosByIdproyecto = proyectosByIdproyecto;
     }
 }

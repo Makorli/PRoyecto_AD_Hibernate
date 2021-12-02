@@ -426,7 +426,7 @@ public class GestionView {
                         if (p != null) {
                             //Solicitamos confirmación al usuario
                             String confiMens = String.format(
-                                    "Confirmar actualización del proveedor %S? \n %s",
+                                    "Confirmar borrado del proveedor %S? \n %s",
                                     p.getCodigo(),
                                     mensajes);
                             int resp = JOptionPane.showConfirmDialog(
@@ -459,7 +459,7 @@ public class GestionView {
                                     //OPERACION CANCELADA POR PARTE DEL USUARIO
                                     JOptionPane.showMessageDialog(
                                             null,
-                                            "Actualización cancelada por parte del usuario....",
+                                            "Borrado cancelado por parte del usuario....",
                                             "AVISO",
                                             JOptionPane.INFORMATION_MESSAGE);
                                 }

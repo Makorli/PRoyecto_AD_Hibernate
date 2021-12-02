@@ -11,16 +11,18 @@ import java.util.List;
 //Clase personalizada de JPanel de contenido dinámico según los modelos.
 public class DinamicJpanel extends JPanel {
 
-    private final MyEntitys type;
-    private final HashMap<String, HintTextField> fields;
-    private final JPanel jpDataLines;
+    private MyEntitys type;
+    private HashMap<String, HintTextField> fields;
+    private HashMap<String,Object> asignacionesFields;
+    private JPanel jpDataLines;
 
     public DinamicJpanel(MyEntitys type) {
-        //super(new GridLayout(0, 1));
+
         super(new BorderLayout());
 
         this.type = type;
         fields = new HashMap<>();
+        asignacionesFields = new HashMap<>();
         String[] campos = new String[0];
 
         //Definimos los campos
@@ -35,39 +37,52 @@ public class DinamicJpanel extends JPanel {
             case Proyectos -> {
                 campos = new String[]{"Codigo", "Nombre", "Ciudad"};
             }
+            case Asignaciones -> {
+                //Se monta manualmente en la vista
+            }
         }
 
-        //Construimos el panel con las etiquetas y campos definidos.
-        this.jpDataLines = new JPanel(new GridLayout(campos.length, 2));
-        //JPanel dataLines = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        //Construimos el panel automaticamente
+        switch (type) {
+            case Proveedores, Piezas, Proyectos -> {
+                //Construimos el panel con las etiquetas y campos definidos.
+                this.jpDataLines = new JPanel(new GridLayout(campos.length, 2));
+                //JPanel dataLines = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        for (String campo : campos) {
-            //Etiqueta
-            JLabel label = new JLabel(campo + ": ", SwingConstants.LEFT);
-            label.setMinimumSize(new Dimension(-1, -1));
+                for (String campo : campos) {
+                    //Etiqueta
+                    JLabel label = new JLabel(campo + ": ", SwingConstants.LEFT);
+                    label.setMinimumSize(new Dimension(-1, -1));
 
-            //TextField
-            HintTextField field = new HintTextField(20);
-            String fieldName = "tb" + campo.toLowerCase();
-            field.setName(fieldName);
+                    //TextField
+                    HintTextField field = new HintTextField(20);
+                    String fieldName = "tb" + campo.toLowerCase();
+                    field.setName(fieldName);
 
-            //Anexamos los objetos al jpanel datalines
-            jpDataLines.add(label);
-            jpDataLines.add(field);
+                    //Anexamos los objetos al jpanel datalines
+                    jpDataLines.add(label);
+                    jpDataLines.add(field);
 
-            //Anexamos el campo al diccionarion de la clase.
-            fields.put(fieldName, field);
+                    //Anexamos el campo al diccionarion de la clase.
+                    fields.put(fieldName, field);
+                }
+                //Añadimos los campos a nuestra clase
+                this.add(jpDataLines, BorderLayout.CENTER);
+
+                //Ponemos margen al JPanel.
+                //ref -> https://stackoverflow.com/questions/5854005/setting-horizontal-and-vertical-margins
+                this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+            }
         }
-        //Añadimos los campos a nuestra clase
-        this.add(jpDataLines, BorderLayout.CENTER);
-
-        //Ponemos margen al JPanel.
-        //ref -> https://stackoverflow.com/questions/5854005/setting-horizontal-and-vertical-margins
-        this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
     }
 
     public HashMap<String, HintTextField> getFieldsMap() {
-        return fields;
+            return fields;
+    }
+
+    public HashMap<String, Object> getAsignacionesFieldsMap() {
+        return asignacionesFields;
     }
 
     public MyEntitys getType() {
@@ -75,6 +90,8 @@ public class DinamicJpanel extends JPanel {
     }
 
     public List<String> getFieldsNames() {
+        if (type == MyEntitys.Asignaciones)
+            return new ArrayList<>(this.asignacionesFields.keySet());
         return new ArrayList<>(this.fields.keySet());
     }
 
@@ -82,4 +99,11 @@ public class DinamicJpanel extends JPanel {
         return jpDataLines;
     }
 
+    public void setType(MyEntitys type) {
+        this.type = type;
+    }
+
+    public void setJpDataLines(JPanel jpDataLines) {
+        this.jpDataLines = jpDataLines;
+    }
 }
