@@ -1,7 +1,7 @@
 package com.Controllers;
 
 import com.Model.AsignacionesEntity;
-import com.Model.ProveedoresEntity;
+import com.Model.PiezasEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleConsumer;
 
 
 public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
@@ -55,21 +56,6 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
     }
 
     @Override
-    protected AsignacionesEntity getType() {
-        return super.getType();
-    }
-
-    @Override
-    protected void setType(Class<AsignacionesEntity> t) {
-        super.setType(t);
-    }
-
-    @Override
-    public boolean insert(AsignacionesEntity asignacionesEntity) {
-        return super.insert(asignacionesEntity);
-    }
-
-    @Override
     public AsignacionesEntity getById(int id) {
         //return super.getById(id);
         SessionFactory sesion = HibernateUtil.getSessionFactory();
@@ -80,48 +66,35 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
         return (AsignacionesEntity) o;
     }
 
-    @Override
-    public List<AsignacionesEntity> getAll() {
-        return super.getAll();
+    public List<AsignacionesEntity> getByPart(int idPieza) {
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from AsignacionesEntity where idpieza = :idpieza ");
+        q.setParameter("idpieza", idPieza);
+        List mylist = q.list();
+        session.close();
+        return new ArrayList<AsignacionesEntity>(mylist);
     }
 
-    @Override
-    public List<AsignacionesEntity> getAllByStringSearch(String campo, String valor) {
-        return super.getAllByStringSearch(campo, valor);
+    public List<AsignacionesEntity> getByProv(int idProv) {
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from AsignacionesEntity where idproveedor = :idprov ");
+        q.setParameter("idprov", idProv);
+        List mylist = q.list();
+        session.close();
+        return new ArrayList<AsignacionesEntity>(mylist);
     }
 
-    @Override
-    public boolean update(AsignacionesEntity asignacionesEntity) {
-        return super.update(asignacionesEntity);
+    public double getPartCantProvided(PiezasEntity piezasEntity){
+        List<AsignacionesEntity> myList = getByPart(piezasEntity.getId());
+        Double cant= 0.0;
+        for (AsignacionesEntity asignacion: myList){
+            cant+= asignacion.getCantidad();
+        }
+        return cant;
     }
 
-    @Override
-    public boolean delete(AsignacionesEntity asignacionesEntity) {
-        return super.delete(asignacionesEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
 }

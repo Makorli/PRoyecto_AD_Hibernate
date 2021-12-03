@@ -6,8 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.Iterator;
-import java.util.List;
 
 public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
 
@@ -19,7 +17,6 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
         codigo= codigo.toLowerCase().trim();
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
-        //Transaction tx = session.beginTransaction();
         Query q = session.createQuery("from ProveedoresEntity where lower(codigo) = lower( :micodigo)");
         q.setParameter("micodigo",codigo);
         ProveedoresEntity p = (ProveedoresEntity) q.uniqueResult();

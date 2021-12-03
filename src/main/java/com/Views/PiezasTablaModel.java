@@ -1,7 +1,6 @@
 package com.Views;
 
-import javax.swing.table.AbstractTableModel;
-
+import com.Controllers.AsignacionesDAO;
 import com.Controllers.PiezasDAO;
 import com.Controllers.ProveedoresDAO;
 import com.Controllers.ProyectosDAO;
@@ -10,32 +9,35 @@ import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
 import com.Model.ProyectosEntity;
 
+import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class AsignacionesTablaModel extends AbstractTableModel {
+public class PiezasTablaModel extends AbstractTableModel {
 
     //CONTROLADORES
+    AsignacionesDAO ctAsignaciones;
     ProveedoresDAO ctProv;
     ProyectosDAO ctProy;
     PiezasDAO ctPieza;
 
     //COLUMNAS
     private final String[] columnas = {
-            "ID",               //POS 0
+            "PROYECTO",               //POS 0
             "PROVEEDOR",        //POS 1
-            "PROYECTO",         //POS 2
-            "PIEZA",            //POS 3
-            "CANTIDAD",         //POS 4
+            "CANTIDAD",         //POS 2
     };
 
     //LISTA DE ASIGNACIONES
-    private List<AsignacionesEntity> asignacionesEntityList;
+    private final List<AsignacionesEntity> asignacionesEntityList;
 
-    public AsignacionesTablaModel(List<AsignacionesEntity> asignacionesList) {
-        asignacionesEntityList = asignacionesList;
+    public PiezasTablaModel(PiezasEntity piezasEntity) {
+        ctAsignaciones = new AsignacionesDAO();
         ctProv = new ProveedoresDAO();
         ctProy = new ProyectosDAO();
         ctPieza = new PiezasDAO();
+
+        asignacionesEntityList = ctAsignaciones.getByPart(piezasEntity.getId());
+
     }
 
     @Override
@@ -52,24 +54,20 @@ public class AsignacionesTablaModel extends AbstractTableModel {
         //Extraemos los objetos asociados a la asignacion.
         ProveedoresEntity proveedor = ctProv.getById(asignacion.getIdproveedor());
         ProyectosEntity proyecto = ctProy.getById(asignacion.getIdproyecto());
-        PiezasEntity pieza = ctPieza.getById(asignacion.getIdpieza());
 
         //Establecemos los valores de las columnas
         return switch (columnIndex) {
-            //ID Asignacion
-            case 0 -> asignacion.getId();
+            //PROYECTO Y CIUDAD
+            case 0 ->
+            String.format ("%s %s",proyecto.getNombre(),proyecto.getCiudad());
+
             //NOMBRE APELLIDOS DE PROVEEDOR
             case 1 -> String.format ("%s %s",proveedor.getNombre(),proveedor.getApellidos());
-            //case 1 -> asignacion.getIdproveedor();
-            //PROYECTO Y CIUDAD
-            case 2 -> String.format ("%s %s",proyecto.getNombre(),proyecto.getCiudad());
-            //case 2 -> asignacion.getIdproyecto();
-            //NOMBRE PIEZA
-            case 3 -> String.format ("%s",pieza.getNombre());
-            //case 3 -> asignacion.getIdpieza();
+
             //CANTIDAD
-            case 4 -> asignacion.getCantidad();
-            default -> null;
+            case 2 -> String.format ("%.2f",asignacion.getCantidad());
+            default -> "";
+
         };
     }
 
@@ -77,4 +75,3 @@ public class AsignacionesTablaModel extends AbstractTableModel {
     public String getColumnName(int column) { return columnas[column]; }
 
 }
-

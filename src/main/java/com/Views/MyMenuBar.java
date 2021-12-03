@@ -226,7 +226,11 @@ import java.awt.event.ActionListener;
         itemSuministrosPiezas.setName("itemSuministrosPiezasGestion");
 
         itemSuministrosPiezas.addActionListener(e -> {
-            //TODO
+            JFrame frame = new JFrame("Piezas Sumnistradas a Proveedor");
+            frame.setContentPane(new SuministrosPiezas().getJPGeneral());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
         });
 
         //Agregamos el item de Sumnistros por Piezas

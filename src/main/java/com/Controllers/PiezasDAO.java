@@ -1,5 +1,6 @@
 package com.Controllers;
 
+import com.Model.AsignacionesEntity;
 import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
 import org.hibernate.Session;
@@ -7,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PiezasDAO extends GenericDAO<PiezasEntity> {
@@ -58,48 +60,26 @@ public class PiezasDAO extends GenericDAO<PiezasEntity> {
         return (PiezasEntity) o;
     }
 
-    @Override
-    public List<PiezasEntity> getAll() {
-        return super.getAll();
+    public int getNumberProyects(PiezasEntity piezasEntity){
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Query q = session.createSQLQuery("select count(idproyecto) from gestionpiezas.Asignaciones where idpieza = :micodigo");
+        q.setParameter("micodigo",piezasEntity.getId());
+        assert q.list()!=null;
+        int numero =Integer.parseInt(q.list().get(0).toString());
+        session.close();
+        return numero;
     }
 
-    @Override
-    public List<PiezasEntity> getAllByStringSearch(String campo, String valor) {
-        return super.getAllByStringSearch(campo, valor);
+    public int getNumberProveedores(PiezasEntity piezasEntity){
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Query q = session.createSQLQuery("select count(idproveedor) from gestionpiezas.Asignaciones where idpieza = :micodigo");
+        q.setParameter("micodigo",piezasEntity.getId());
+        assert q.list()!=null;
+        int numero =Integer.parseInt(q.list().get(0).toString());
+        session.close();
+        return numero;
     }
 
-    @Override
-    public boolean update(PiezasEntity piezasEntity) {
-        return super.update(piezasEntity);
-    }
-
-    @Override
-    public boolean delete(PiezasEntity piezasEntity) {
-        return super.delete(piezasEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
 }
