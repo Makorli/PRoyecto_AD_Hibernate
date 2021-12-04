@@ -49,28 +49,30 @@ public class AsignacionesTablaModel extends AbstractTableModel {
         //Extraemos la asignacion
         AsignacionesEntity asignacion = asignacionesEntityList.get(rowIndex);
 
-        //Extraemos los objetos asociados a la asignacion.
-        ProveedoresEntity proveedor = ctProv.getById(asignacion.getIdproveedor());
-        ProyectosEntity proyecto = ctProy.getById(asignacion.getIdproyecto());
-        PiezasEntity pieza = ctPieza.getById(asignacion.getIdpieza());
-
         //Establecemos los valores de las columnas
-        return switch (columnIndex) {
+        switch (columnIndex) {
             //ID Asignacion
-            case 0 -> asignacion.getId();
+            case 0 -> { return asignacion.getId();}
             //NOMBRE APELLIDOS DE PROVEEDOR
-            case 1 -> String.format ("%s %s",proveedor.getNombre(),proveedor.getApellidos());
-            //case 1 -> asignacion.getIdproveedor();
+            case 1 -> {
+                ProveedoresEntity proveedor = ctProv.getById(asignacion.getIdproveedor());
+                return String.format("%s %s", proveedor.getNombre(), proveedor.getApellidos());
+            }
             //PROYECTO Y CIUDAD
-            case 2 -> String.format ("%s %s",proyecto.getNombre(),proyecto.getCiudad());
-            //case 2 -> asignacion.getIdproyecto();
+            case 2 -> {
+                ProyectosEntity proyecto = ctProy.getById(asignacion.getIdproyecto());
+                return String.format("%s %s", proyecto.getNombre(), proyecto.getCiudad());
+            }
             //NOMBRE PIEZA
-            case 3 -> String.format ("%s",pieza.getNombre());
-            //case 3 -> asignacion.getIdpieza();
-            //CANTIDAD
-            case 4 -> asignacion.getCantidad();
-            default -> null;
+            case 3 -> {
+                PiezasEntity pieza= ctPieza.getById(asignacion.getIdpieza());
+                return String.format ("%s",pieza.getNombre());
+            }
+            case 4 ->{
+                    return asignacion.getCantidad();
+            }
         };
+        return null;
     }
 
     @Override

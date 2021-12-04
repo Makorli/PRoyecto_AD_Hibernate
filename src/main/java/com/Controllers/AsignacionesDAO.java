@@ -2,11 +2,13 @@ package com.Controllers;
 
 import com.Model.AsignacionesEntity;
 import com.Model.PiezasEntity;
+import com.Model.ProveedoresEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleConsumer;
@@ -55,6 +57,18 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
         return p;
     }
 
+    public List<AsignacionesEntity> getByProvProy(int idProv, int idProyecto){
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from AsignacionesEntity where idproveedor = :idproveedor and idproyecto = :idproyecto");
+        q.setParameter("idproveedor", idProv);
+        q.setParameter("idproyecto", idProyecto);
+        List mylist = q.list();
+        session.close();
+        return new ArrayList<AsignacionesEntity>(mylist);
+    }
+
     @Override
     public AsignacionesEntity getById(int id) {
         //return super.getById(id);
@@ -97,4 +111,123 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
         return cant;
     }
 
+    public AbstractMap.SimpleEntry<String, String> getPiezaMasSumnistrada(){
+
+        AbstractMap.SimpleEntry<String,String> result;
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        String consulta = "select distinct(pi.nombre) as nombrepieza,\n" +
+                "sum(asg.cantidad) as total \n" +
+                "from Asignaciones AS asg, Piezas pi, Proyectos pr\n" +
+                "where asg.idproyecto=pr.id and asg.idpieza=pi.id \n" +
+                "group by pi.nombre\n" +
+                "order by total desc";
+        Query q = session.createSQLQuery(consulta);
+        List mylist = q.list();
+        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
+        else return new AbstractMap.SimpleEntry<>(
+                String.valueOf(mylist.get(0).toString()),
+                String.valueOf(mylist.get(1).toString()));
+        session.close();
+        return result;
+    }
+
+    public AbstractMap.SimpleEntry<String, String> getProveedorMasCantidadSuministra(){
+
+        AbstractMap.SimpleEntry<String,String> result;
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        String consulta = "select \n" +
+                "pr.nombre as \"Nombre\",\n" +
+                "sum(asg.cantidad) as \"Cantidad Total Suministrada\"\n" +
+                "from Asignaciones as asg, Proveedores as pr\n" +
+                "where asg.idproveedor=pr.id \n" +
+                "group by pr.nombre \n" +
+                "order by sum(asg.cantidad) desc";
+        Query q = session.createSQLQuery(consulta);
+        List mylist = q.list();
+        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
+        else return new AbstractMap.SimpleEntry<>(
+                String.valueOf(mylist.get(0)),
+                String.valueOf(mylist.get(1)));
+        session.close();
+        return result;
+    }
+
+    //getPiezaEnMasProyectos
+    public AbstractMap.SimpleEntry<String, String> getPiezaEnMasProyectos(){
+
+        AbstractMap.SimpleEntry<String,String> result;
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        //Todo consulta
+        String consulta = "select \n" +
+                "pr.nombre as \"Nombre\",\n" +
+                "sum(asg.cantidad) as \"Cantidad Total Suministrada\"\n" +
+                "from Asignaciones as asg, Proveedores as pr\n" +
+                "where asg.idproveedor=pr.id \n" +
+                "group by pr.nombre \n" +
+                "order by sum(asg.cantidad) desc";
+        Query q = session.createSQLQuery(consulta);
+        List mylist = q.list();
+        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
+        else return new AbstractMap.SimpleEntry<>(
+                String.valueOf(mylist.get(0)),
+                String.valueOf(mylist.get(1)));
+        session.close();
+        return result;
+    }
+
+    //tfProvMasTipoDePiezasSuministra
+    public AbstractMap.SimpleEntry<String, String> getProvMasTipoDePiezasSuministra(){
+
+        AbstractMap.SimpleEntry<String,String> result;
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        //Todo consulta
+        String consulta = "select \n" +
+                "pr.nombre as \"Nombre\",\n" +
+                "sum(asg.cantidad) as \"Cantidad Total Suministrada\"\n" +
+                "from Asignaciones as asg, Proveedores as pr\n" +
+                "where asg.idproveedor=pr.id \n" +
+                "group by pr.nombre \n" +
+                "order by sum(asg.cantidad) desc";
+        Query q = session.createSQLQuery(consulta);
+        List mylist = q.list();
+        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
+        else return new AbstractMap.SimpleEntry<>(
+                String.valueOf(mylist.get(0)),
+                String.valueOf(mylist.get(1)));
+        session.close();
+        return result;
+    }
+
+    //getProvEnMasProyectos
+    public AbstractMap.SimpleEntry<String, String> getProvEnMasProyectos(){
+
+        AbstractMap.SimpleEntry<String,String> result;
+
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        //Todo consulta
+        String consulta = "select \n" +
+                "pr.nombre as \"Nombre\",\n" +
+                "sum(asg.cantidad) as \"Cantidad Total Suministrada\"\n" +
+                "from Asignaciones as asg, Proveedores as pr\n" +
+                "where asg.idproveedor=pr.id \n" +
+                "group by pr.nombre \n" +
+                "order by sum(asg.cantidad) desc";
+        Query q = session.createSQLQuery(consulta);
+        List mylist = q.list();
+        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
+        else return new AbstractMap.SimpleEntry<>(
+                String.valueOf(mylist.get(0)),
+                String.valueOf(mylist.get(1)));
+        session.close();
+        return result;
+    }
 }

@@ -5,8 +5,10 @@ import com.Controllers.MyEntitys;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
- public class MyMenuBar {
+public class MyMenuBar {
 
     public static JMenuBar getMyAppMenu() {
 
@@ -44,6 +46,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Gestion de Proveedores");
             frame.setContentPane(new GestionView(myEntity).getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -52,6 +55,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proveedores por Código");
             frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -60,6 +64,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proveedores por Nombre");
             frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -68,6 +73,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proveedores por Dirección");
             frame.setContentPane(new QueryView(myEntity, "Direccion").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -100,6 +106,7 @@ import java.awt.event.ActionListener;
                 JFrame frame = new JFrame("Gestion de Piezas");
                 frame.setContentPane(new GestionView(myEntity).getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -111,6 +118,7 @@ import java.awt.event.ActionListener;
                 JFrame frame = new JFrame("Consulta de Piezas por Código");
                 frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -122,6 +130,7 @@ import java.awt.event.ActionListener;
                 JFrame frame = new JFrame("Consulta de Piezas por Nombre");
                 frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
                 frame.pack();
                 frame.setVisible(true);
             }
@@ -154,6 +163,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Gestion de Proyectos");
             frame.setContentPane(new GestionView(myEntity).getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -162,6 +172,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proyectos por Codigo");
             frame.setContentPane(new QueryView(myEntity, "Codigo").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -170,6 +181,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proyectos por Nombre");
             frame.setContentPane(new QueryView(myEntity, "Nombre").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -178,6 +190,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Consulta de Proyectos por Ciudad");
             frame.setContentPane(new QueryView(myEntity, "Ciudad").getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -197,6 +210,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Gestion Global - Piezas, Proveedores y Proyectos");
             frame.setContentPane(new AsignacionesView().getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -213,6 +227,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Suministros por Proveedor");
             frame.setContentPane(new SuministrosProveedor().getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -229,6 +244,7 @@ import java.awt.event.ActionListener;
             JFrame frame = new JFrame("Piezas Sumnistradas a Proveedor");
             frame.setContentPane(new SuministrosPiezas().getJPGeneral());
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
             frame.pack();
             frame.setVisible(true);
         });
@@ -242,7 +258,12 @@ import java.awt.event.ActionListener;
         itemEstadisticas.setName("itemEstadisticasGestion");
 
         itemEstadisticas.addActionListener(e -> {
-            //TODO
+            JFrame frame = new JFrame("Resumenes Estaditicos");
+            frame.setContentPane(new EstadisticasView().getJPGeneral());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.pack();
+            frame.setVisible(true);
         });
 
         //Agregamos el item de estaditicas.
@@ -252,7 +273,51 @@ import java.awt.event.ActionListener;
     }
 
     private static JMenu getMenuAyuda() {
-        return new JMenu("Ayuda");
+        JMenu menuAyuda = new JMenu("Ayuda");
+
+        menuAyuda.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JFrame frame = new JFrame("Datos Desarrollador");
+                frame.setContentPane(new AyudaView().getJPGeneral());
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setLocationRelativeTo(null);
+                frame.pack();
+                frame.setVisible(true);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+
+        menuAyuda.addActionListener(e -> {
+            JFrame frame = new JFrame("Datos Desarrollador");
+            frame.setContentPane(new AyudaView().getJPGeneral());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.pack();
+            frame.setVisible(true);
+        });
+
+        return menuAyuda;
     }
 
 }

@@ -1,10 +1,13 @@
 package com.Controllers;
 
 import com.Model.ProveedoresEntity;
+import com.Model.ProyectosEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.util.List;
 
 
 public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
@@ -56,6 +59,18 @@ public class ProveedoresDAO extends GenericDAO<ProveedoresEntity> {
         Session session = sesion.openSession();
         Query q = session.createSQLQuery("select count(idproyecto) from gestionpiezas.Asignaciones where idproveedor = :micodigo");
         q.setParameter("micodigo",proveedoresEntity.getId());
+        assert q.list()!=null;
+        int numero =Integer.parseInt(q.list().get(0).toString());
+        session.close();
+        return numero;
+    }
+
+    public int getNPiezasByProy(int idProv, int idProy){
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Query q = session.createSQLQuery("select count(idpieza) from gestionpiezas.Asignaciones where idproveedor = : micodigo and idproyecto= :idproyecto");
+        q.setParameter("micodigo",idProv);
+        q.setParameter("idproyecto",idProy);
         assert q.list()!=null;
         int numero =Integer.parseInt(q.list().get(0).toString());
         session.close();
