@@ -277,9 +277,7 @@ public class MyMenuBar {
 
         menuAyuda.addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
+            public void mouseClicked(MouseEvent e) {}
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -292,29 +290,13 @@ public class MyMenuBar {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) {}
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) {}
 
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-
-        menuAyuda.addActionListener(e -> {
-            JFrame frame = new JFrame("Datos Desarrollador");
-            frame.setContentPane(new AyudaView().getJPGeneral());
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setLocationRelativeTo(null);
-            frame.pack();
-            frame.setVisible(true);
+            public void mouseExited(MouseEvent e) {}
         });
 
         return menuAyuda;

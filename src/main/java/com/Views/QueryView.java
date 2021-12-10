@@ -4,6 +4,7 @@ import com.Controllers.*;
 import com.Model.PiezasEntity;
 import com.Model.ProveedoresEntity;
 import com.Model.ProyectosEntity;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import javax.swing.*;
 import java.awt.*;
@@ -153,6 +154,7 @@ public class QueryView {
         }
         cbSelector.setModel(defaultComboBoxModel);
         cbSelector.setRenderer(new searchFieldRenderer());
+        cbSelector.setSelectedIndex(-1);
     }
 
     /**

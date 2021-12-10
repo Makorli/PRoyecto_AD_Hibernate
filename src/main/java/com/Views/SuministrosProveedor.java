@@ -35,9 +35,10 @@ public class SuministrosProveedor {
         ViewsController.DisableAllFields(JPGeneral);
         //Instanciamos controladores
         this.ctProvs = new ProveedoresDAO();
+
         //Cargamos los comboboxes con el contenido necesario
         loadCbSelector(cbProv, ctProvs.getAll());
-
+        cbProv.setSelectedIndex(-1);
         //Listener
         cbProv.addItemListener(e -> {
             int items = cbProv.getItemCount();
@@ -47,6 +48,7 @@ public class SuministrosProveedor {
             if (items > 0 && isChanged) {
                 Object o = cbProv.getSelectedItem();
                 assert o != null;
+                limpiar();
                 selectedProv = (ProveedoresEntity) o;
                 tfNombre.setText(String.format("%s", selectedProv.getNombre()));
                 tfApellidos.setText(String.format("%s", selectedProv.getApellidos()));
@@ -66,6 +68,12 @@ public class SuministrosProveedor {
 
     public JPanel getJPGeneral() {
         return JPGeneral;
+    }
+
+    private void limpiar(){
+
+        tfNProyectos.setText("");
+        tfNpiezas.setText("");
     }
 
     /**

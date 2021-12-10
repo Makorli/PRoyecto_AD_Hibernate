@@ -48,6 +48,7 @@ public class SuministrosPiezas {
         this.ctAsignaciones = new AsignacionesDAO();
         //Cargamos los comboboxes con el contenido necesario
         loadCbSelector(cbPiezas, ctPiezas.getAll());
+        cbPiezas.setSelectedIndex(-1);
         //inicializamos la Tabla de datos
         JScrollPane.setViewportView(JTProyProvs);
         JTProyProvs.setModel(new PiezasTablaModel(new PiezasEntity()));
@@ -63,7 +64,8 @@ public class SuministrosPiezas {
                 Object o = cbPiezas.getSelectedItem();
                 assert o != null;
                 selectedPart = (PiezasEntity) o;
-                JTProyProvs.setModel(new PiezasTablaModel(new PiezasEntity()));
+                //JTProyProvs.setModel(new PiezasTablaModel(new PiezasEntity()));
+                limpiar();
                 tfNombreDescr.setText(String.format("%s %s",
                         selectedPart.getNombre(),
                         (selectedPart.getDescripcion()==null)?"":"-> "+selectedPart.getDescripcion()));
@@ -88,6 +90,13 @@ public class SuministrosPiezas {
             }
         });
 
+    }
+
+    private void limpiar(){
+        JTProyProvs.setModel(new PiezasTablaModel(new PiezasEntity()));
+        tfNproyectos.setText("");
+        tfTotalCant.setText("");
+        tfNProvs.setText("");
     }
 
 

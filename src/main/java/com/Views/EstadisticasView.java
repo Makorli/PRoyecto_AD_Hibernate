@@ -62,17 +62,14 @@ public class EstadisticasView {
         btPiezasProyecto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Numero de Piezas y cantidad de piezas sumnistradas por proyecto");
 
                 //Montamos la vista de la tabla
-                JPanel jptabla= new JPanel();
-                JTable jtable = new JTable();
-                JScrollPane jScrollPane = new JScrollPane();
-                jScrollPane.setViewportView(jtable);
-                jtable.setModel(new EstadisticasByProyectoTablaModel());
+                JFrame frame = new JFrame("Numero de Piezas y cantidad de piezas sumnistradas por proyecto");
 
                 //Mostramos la ventana
-                frame.setContentPane(jptabla);
+                frame.setContentPane(new TablasView(
+                        new EstadisticasByProyectoTablaModel())
+                        .getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
                 frame.pack();
@@ -86,6 +83,7 @@ public class EstadisticasView {
                 JFrame frame = new JFrame("Numero de Piezas y cantidad de piezas sumnistradas por proveedor");
 
                 //Montamos la vista de la tabla
+                /*
                 JPanel jptabla= new JPanel();
                 JTable jtable = new JTable();
                 JScrollPane jScrollPane = new JScrollPane();
@@ -98,8 +96,12 @@ public class EstadisticasView {
                 jptabla.repaint();
                 jptabla.repaint();
 
+                 */
+
                 //Mostramos la ventana
-                frame.setContentPane(jptabla);
+                frame.setContentPane(new TablasView(
+                        new EstadisticasByProveedorTablaModel())
+                        .getJPGeneral());
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setLocationRelativeTo(null);
                 frame.pack();

@@ -66,6 +66,11 @@ public class EstadisticasByProveedorTablaModel extends AbstractTableModel {
         return null;
     }
 
+    @Override
+    public String getColumnName(int column) {
+        return columnas[column];
+    }
+
     // Ejecuta consulta personalizada para obtener los datos de la tabla
     // de estadíticas de proveedores.
     private List<Object> customQuery(){

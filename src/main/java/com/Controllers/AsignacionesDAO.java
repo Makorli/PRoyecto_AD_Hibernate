@@ -8,9 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.DoubleConsumer;
 
 
@@ -113,7 +111,7 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
 
     public AbstractMap.SimpleEntry<String, String> getPiezaMasSumnistrada(){
 
-        AbstractMap.SimpleEntry<String,String> result;
+        AbstractMap.SimpleEntry<String,String> result=null;
 
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
@@ -124,18 +122,22 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
                 "group by pi.nombre\n" +
                 "order by total desc";
         Query q = session.createSQLQuery(consulta);
-        List mylist = q.list();
-        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
-        else return new AbstractMap.SimpleEntry<>(
-                String.valueOf(mylist.get(0).toString()),
-                String.valueOf(mylist.get(1).toString()));
+        Iterator iter = q.stream().iterator();
+        if (iter.hasNext()){
+            Object [] row = (Object[]) iter.next();
+            String myKey= (String) row[0];
+            String myValue = String.valueOf((Double) row[1]);
+            return new AbstractMap.SimpleEntry<String,String>(
+                    String.valueOf(myKey),
+                    myValue);
+        }
         session.close();
         return result;
     }
 
     public AbstractMap.SimpleEntry<String, String> getProveedorMasCantidadSuministra(){
 
-        AbstractMap.SimpleEntry<String,String> result;
+        AbstractMap.SimpleEntry<String,String> result=null;
 
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
@@ -148,10 +150,15 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
                 "order by sum(asg.cantidad) desc";
         Query q = session.createSQLQuery(consulta);
         List mylist = q.list();
-        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
-        else return new AbstractMap.SimpleEntry<>(
-                String.valueOf(mylist.get(0)),
-                String.valueOf(mylist.get(1)));
+        Iterator iter = q.stream().iterator();
+        if (iter.hasNext()){
+            Object [] row = (Object[]) iter.next();
+            String myKey= (String) row[0];
+            String myValue = String.valueOf((Double) row[1]);
+            return new AbstractMap.SimpleEntry<String,String>(
+                    String.valueOf(myKey),
+                    myValue);
+        }
         session.close();
         return result;
     }
@@ -159,7 +166,7 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
     //getPiezaEnMasProyectos
     public AbstractMap.SimpleEntry<String, String> getPiezaEnMasProyectos(){
 
-        AbstractMap.SimpleEntry<String,String> result;
+        AbstractMap.SimpleEntry<String,String> result = null;
 
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
@@ -172,11 +179,15 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
                 "group by pr.nombre \n" +
                 "order by sum(asg.cantidad) desc";
         Query q = session.createSQLQuery(consulta);
-        List mylist = q.list();
-        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
-        else return new AbstractMap.SimpleEntry<>(
-                String.valueOf(mylist.get(0)),
-                String.valueOf(mylist.get(1)));
+        Iterator iter = q.stream().iterator();
+        if (iter.hasNext()){
+            Object [] row = (Object[]) iter.next();
+            String myKey= (String) row[0];
+            String myValue = String.valueOf((Double) row[1]);
+            return new AbstractMap.SimpleEntry<String,String>(
+                    String.valueOf(myKey),
+                    myValue);
+        }
         session.close();
         return result;
     }
@@ -184,7 +195,7 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
     //tfProvMasTipoDePiezasSuministra
     public AbstractMap.SimpleEntry<String, String> getProvMasTipoDePiezasSuministra(){
 
-        AbstractMap.SimpleEntry<String,String> result;
+        AbstractMap.SimpleEntry<String,String> result=null;
 
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
@@ -198,10 +209,15 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
                 "order by sum(asg.cantidad) desc";
         Query q = session.createSQLQuery(consulta);
         List mylist = q.list();
-        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
-        else return new AbstractMap.SimpleEntry<>(
-                String.valueOf(mylist.get(0)),
-                String.valueOf(mylist.get(1)));
+        Iterator iter = q.stream().iterator();
+        if (iter.hasNext()){
+            Object [] row = (Object[]) iter.next();
+            String myKey= (String) row[0];
+            String myValue = String.valueOf((Double) row[1]);
+            return new AbstractMap.SimpleEntry<String,String>(
+                    String.valueOf(myKey),
+                    myValue);
+        }
         session.close();
         return result;
     }
@@ -209,7 +225,7 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
     //getProvEnMasProyectos
     public AbstractMap.SimpleEntry<String, String> getProvEnMasProyectos(){
 
-        AbstractMap.SimpleEntry<String,String> result;
+        AbstractMap.SimpleEntry<String,String> result=null;
 
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session = sesion.openSession();
@@ -223,10 +239,15 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
                 "order by sum(asg.cantidad) desc";
         Query q = session.createSQLQuery(consulta);
         List mylist = q.list();
-        if (mylist.isEmpty()) result = new AbstractMap.SimpleEntry<>("", "");
-        else return new AbstractMap.SimpleEntry<>(
-                String.valueOf(mylist.get(0)),
-                String.valueOf(mylist.get(1)));
+        Iterator iter = q.stream().iterator();
+        if (iter.hasNext()){
+            Object [] row = (Object[]) iter.next();
+            String myKey= (String) row[0];
+            String myValue = String.valueOf((Double) row[1]);
+            return new AbstractMap.SimpleEntry<String,String>(
+                    String.valueOf(myKey),
+                    myValue);
+        }
         session.close();
         return result;
     }

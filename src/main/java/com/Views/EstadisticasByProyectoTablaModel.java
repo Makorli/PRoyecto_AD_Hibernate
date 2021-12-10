@@ -30,12 +30,12 @@ public class EstadisticasByProyectoTablaModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 0;
+        return datosTabla.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        return columnas.length;
     }
 
     @Override
@@ -58,6 +58,11 @@ public class EstadisticasByProyectoTablaModel extends AbstractTableModel {
             case 5 ->{ return String.valueOf(fila[5]); }
         }
         return null;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return columnas[column];
     }
 
     // Ejecuta consulta personalizada para obtener los datos de la tabla
