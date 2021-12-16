@@ -120,6 +120,7 @@ public class GestionView {
                                             "Inserción realizada correctamente",
                                             "Error",
                                             JOptionPane.INFORMATION_MESSAGE);
+                                    ViewsController.ClearAllFields(JPDatosGestion);
                                 } else {
                                     JOptionPane.showMessageDialog(
                                             null,
@@ -149,6 +150,7 @@ public class GestionView {
                                             "Inserción realizada correctamente",
                                             "Error",
                                             JOptionPane.INFORMATION_MESSAGE);
+                                    ViewsController.ClearAllFields(JPDatosGestion);
                                 } else {
                                     JOptionPane.showMessageDialog(
                                             null,
@@ -178,6 +180,7 @@ public class GestionView {
                                             "Inserción realizada correctamente",
                                             "Error",
                                             JOptionPane.INFORMATION_MESSAGE);
+                                    ViewsController.ClearAllFields(JPDatosGestion);
                                 } else {
                                     JOptionPane.showMessageDialog(
                                             null,

@@ -100,6 +100,17 @@ public class AsignacionesDAO extends GenericDAO<AsignacionesEntity> {
         return new ArrayList<AsignacionesEntity>(mylist);
     }
 
+    public List<AsignacionesEntity> getByProyecto(int idProy) {
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session = sesion.openSession();
+        Transaction tx = session.beginTransaction();
+        Query q = session.createQuery("from AsignacionesEntity where idproyecto = :idproy ");
+        q.setParameter("idproy", idProy);
+        List mylist = q.list();
+        session.close();
+        return new ArrayList<AsignacionesEntity>(mylist);
+    }
+
     public double getPartCantProvided(PiezasEntity piezasEntity){
         List<AsignacionesEntity> myList = getByPart(piezasEntity.getId());
         Double cant= 0.0;

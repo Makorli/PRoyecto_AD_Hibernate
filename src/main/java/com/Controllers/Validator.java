@@ -146,6 +146,12 @@ public class Validator {
                     proveedoresEntity = new ProveedoresDAO().getByCodigo(codigo);
                     if (proveedoresEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
+                    else {
+                        //COMPROBAMOS QUE EL PROVEEDOR NO ESTA ASIGNADO A NINGUN PROYECTO
+                        if (new AsignacionesDAO().getByProv(proveedoresEntity.getId()).size() != 0) {
+                            erroresMap.put("Proveedor", "El proveedor dispone de asignaciones en proyectos");
+                        }
+                    }
                 }
             }
             case update -> {
@@ -304,6 +310,12 @@ public class Validator {
                     proyectosEntity = new ProyectosDAO().getByCodigo(codigo);
                     if (proyectosEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
+                    else {
+                        //COMPROBAMOS QUE EL PROVEEDOR NO ESTA ASIGNADO A NINGUN PROYECTO
+                        if (new AsignacionesDAO().getByProyecto(proyectosEntity.getId()).size()>0) {
+                            erroresMap.put("Proyecto", "El proyecto dispone de piezas asignadas");
+                        }
+                    }
                 }
             }
             case update -> {
@@ -437,6 +449,13 @@ public class Validator {
                         Double.parseDouble(
                                 dinamicJpanel.getFieldsMap().get("tbprecio").getText()
                         ));
+                //DESCRIPCION
+                String descripcion = dinamicJpanel.getFieldsMap().get("tbdescripcion").getText();
+                if (nombre.equals("")) erroresMap.put("Descripcion", "La descripcion no puede estar vacia");
+                else {
+                    piezasEntity.setDescripcion(
+                            dinamicJpanel.getFieldsMap().get("tbdescripcion").getText());
+                }
             }
             case delete -> {
                 //COMPROBAMOS LA EXISTENCIA DEL CODIGO INTRODUCIDO
@@ -451,6 +470,12 @@ public class Validator {
                     piezasEntity = new PiezasDAO().getByCodigo(codigo);
                     if (piezasEntity == null)
                         erroresMap.put("Codigo", "El codigo NO existe en la base de datos");
+                    else {
+                        //COMPROBAMOS QUE EL PROVEEDOR NO ESTA ASIGNADO A NINGUN PROYECTO
+                        if (new AsignacionesDAO().getByPart(piezasEntity.getId()).size() != 0) {
+                            erroresMap.put("Pieza", "La pieza está asignada a proyectos");
+                        }
+                    }
                 }
             }
             case update -> {
@@ -628,7 +653,7 @@ public class Validator {
                         asignacionesEntity.setId(asignacionesOld.getId());
                         //Preguntamos si ha habido cambios
                         if (asignacionesOld.equals(asignacionesEntity))
-                        erroresMap.put("Asignaciones", "No se han realizado cambios.");
+                            erroresMap.put("Asignaciones", "No se han realizado cambios.");
                     }
                 }
             }
